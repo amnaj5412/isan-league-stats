@@ -1,0 +1,1547 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>สถิติฟุตบอลลีกอีสาน</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://competition.tl.prod.c0d1um.io" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: analyst workbench — sticky top bar, left rail nav on desktop (scrolling tabs on phone), dense bordered panels, mono numerals */
+:root{
+  --bg:#f1f4f2; --surface:#ffffff; --surface-2:#f2f5f3; --surface-3:#e4eae7; --line:#dde3e0; --line-2:#c7d0cc;
+  --text:#111a16; --muted:#55625c; --faint:#86928d;
+  --accent:#0b7a4d; --accent-ink:#ffffff; --accent-soft:#ddf0e6;
+  --ca:#2457c5; --cb:#b06f06;
+  --w:#1a9a55; --d:#8a949e; --l:#cf4339;
+  --h1:#0b7a4d; --h2:#2457c5; --h3:#b06f06; --h4:#a2378c; --grey-line:#cbd3cf;
+  --q-hi:#1a9a55; --q-mid:#c99412; --q-lo:#cf4339;
+  --f-display:"Bai Jamjuree","IBM Plex Sans Thai",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Thai",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:10px;
+  --gut-l:max(16px,env(safe-area-inset-left,0px)); --gut-r:max(16px,env(safe-area-inset-right,0px));
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c1210; --surface:#131b18; --surface-2:#18221e; --surface-3:#22302a; --line:#25322c; --line-2:#34443d;
+    --text:#e5ece8; --muted:#9caaa3; --faint:#6c7a74;
+    --accent:#3cc387; --accent-ink:#06120d; --accent-soft:#143126;
+    --ca:#7ea6ff; --cb:#e8ac4c;
+    --w:#2fb46b; --d:#76808a; --l:#e5625a;
+    --h1:#3cc387; --h2:#7ea6ff; --h3:#e8ac4c; --h4:#e07ccf; --grey-line:#34443d;
+    --q-hi:#2fb46b; --q-mid:#d9a92c; --q-lo:#e5625a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c1210; --surface:#131b18; --surface-2:#18221e; --surface-3:#22302a; --line:#25322c; --line-2:#34443d;
+  --text:#e5ece8; --muted:#9caaa3; --faint:#6c7a74;
+  --accent:#3cc387; --accent-ink:#06120d; --accent-soft:#143126;
+  --ca:#7ea6ff; --cb:#e8ac4c;
+  --w:#2fb46b; --d:#76808a; --l:#e5625a;
+  --h1:#3cc387; --h2:#7ea6ff; --h3:#e8ac4c; --h4:#e07ccf; --grey-line:#34443d;
+  --q-hi:#2fb46b; --q-mid:#d9a92c; --q-lo:#e5625a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--surface)}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.55 var(--f-body)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;letter-spacing:.005em}
+.n{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)} .small{font-size:12.5px}
+.sub{display:block;font-size:12px;color:var(--muted);font-weight:400;line-height:1.35}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--surface);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1380px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-block:10px;padding-left:var(--gut-l);padding-right:var(--gut-r)}
+.brand{display:flex;gap:11px;align-items:center;min-width:0;margin-right:auto}
+.mark{width:34px;height:34px;border-radius:8px;background:var(--accent);display:grid;place-items:center;flex:none}
+.mark svg{width:20px;height:20px}
+.brand h1{font-size:17px;margin:0;line-height:1.2;font-weight:700}
+.brand .meta{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stamp{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px;white-space:nowrap}
+.stamp .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.iconbtn{border:1px solid var(--line-2);background:var(--surface);border-radius:7px;width:30px;height:30px;display:grid;place-items:center;cursor:pointer}
+.iconbtn:hover{background:var(--surface-2)} .iconbtn:disabled{opacity:.5;cursor:wait}
+.iconbtn svg{width:15px;height:15px}
+.search{position:relative;width:260px;max-width:100%}
+.search input{width:100%;padding:7px 12px 7px 32px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface-2);outline:none;font-size:13px}
+.search input:focus{border-color:var(--accent);background:var(--surface)}
+.search > svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--faint)}
+.search-res{position:absolute;right:0;top:calc(100% + 6px);width:min(380px,calc(100vw - 32px));max-height:60vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.search-res button{display:flex;width:100%;gap:10px;align-items:center;padding:8px 12px;border:0;background:none;text-align:left;cursor:pointer;border-bottom:1px solid var(--line)}
+.search-res button:hover{background:var(--surface-2)}
+.search-res .empty{padding:12px;color:var(--muted)}
+.topnav{display:none;width:100%;gap:2px;overflow-x:auto;scrollbar-width:none;margin-bottom:-10px}
+.topnav::-webkit-scrollbar{display:none}
+.topnav a{flex:none;display:flex;gap:6px;align-items:center;text-decoration:none;color:var(--muted);padding:8px 11px;border-bottom:2px solid transparent;font-weight:500;font-size:13.5px}
+.topnav a.on{color:var(--accent);border-color:var(--accent)}
+.topnav svg{width:16px;height:16px}
+
+/* shell */
+.shell{max-width:1380px;margin:0 auto;display:grid;grid-template-columns:196px minmax(0,1fr);gap:22px;padding-block:20px 40px;padding-left:var(--gut-l);padding-right:var(--gut-r)}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);align-self:start;display:grid;gap:2px}
+.rail a{display:flex;gap:10px;align-items:center;padding:8px 11px;border-radius:8px;color:var(--muted);text-decoration:none;font-weight:500}
+.rail a:hover{background:var(--surface-3);color:var(--text)}
+.rail a.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.rail svg{width:17px;height:17px;flex:none}
+.rail-foot{margin-top:14px;padding:12px 11px 0;border-top:1px solid var(--line);font-size:11.5px;color:var(--faint);line-height:1.5}
+.rail-foot a{display:inline;padding:0;color:var(--muted);text-decoration:underline}
+main{min-width:0;display:grid;gap:16px;align-content:start}
+footer{max-width:1380px;margin:0 auto;padding-block:0 28px;padding-left:var(--gut-l);padding-right:var(--gut-r);font-size:12px;color:var(--faint)}
+footer a{color:var(--faint)}
+@media (max-width:1023px){
+  .shell{grid-template-columns:minmax(0,1fr);padding-block:14px 32px}
+  .rail{display:none} .topnav{display:flex}
+  .search{width:100%;order:3}
+}
+
+/* page head + panels */
+.pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.pagehead h2{font-size:23px;margin:0;line-height:1.2}
+.pagehead p{margin:3px 0 0;color:var(--muted);font-size:13px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);min-width:0;overflow:hidden}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:11px 16px;border-bottom:1px solid var(--line)}
+.ph h3{font-size:15px;margin:0;font-weight:600}
+.ph .note{font-size:12px;color:var(--muted)}
+.pb{padding:14px 16px}
+.pnote{padding:10px 16px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);background:var(--surface-2)}
+.cols{display:grid;gap:16px;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);align-items:start}
+.cols.even{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:1180px){.cols,.cols.even{grid-template-columns:minmax(0,1fr)}}
+.banner{background:var(--surface);border:1px solid var(--q-mid);border-left-width:4px;padding:10px 14px;border-radius:8px;font-size:13px}
+
+/* KPI strip */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.kpi{background:var(--surface);padding:12px 14px;display:grid;gap:2px;align-content:start;min-width:0}
+.kpi .lab{font-size:12px;color:var(--muted)}
+.kpi .val{font:600 24px/1.2 var(--f-num);letter-spacing:-.01em}
+.kpi .val small{font-size:13px;color:var(--muted);font-weight:500;letter-spacing:0}
+.kpi .foot{font-size:11.5px;color:var(--faint)}
+.meter{height:6px;border-radius:99px;background:var(--surface-3);overflow:hidden;display:flex;margin-top:5px}
+.meter i{display:block;height:100%}
+
+/* controls */
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:2px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:none;padding:5px 11px;border-radius:6px;font-size:13px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.seg button:hover{color:var(--text)}
+.seg button.on{background:var(--surface);color:var(--text);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.inp{padding:6px 10px;border:1px solid var(--line-2);border-radius:7px;background:var(--surface);font-size:13px;min-width:0;max-width:100%}
+.btn{border:1px solid var(--line-2);background:var(--surface);padding:6px 12px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
+.btn:hover{background:var(--surface-2)} .btn:disabled{opacity:.45;cursor:not-allowed}
+.btn svg{width:14px;height:14px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:4px 11px;font-size:12.5px;cursor:pointer;white-space:nowrap}
+.chip:hover{border-color:var(--text)}
+.chip.on{background:var(--text);color:var(--surface);border-color:var(--text)}
+.filters{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+.filters label{display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--muted)}
+.fsearch{position:relative;flex:1 1 220px;max-width:320px}
+.fsearch input{width:100%;padding-left:30px}
+.fsearch svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--faint)}
+.count{font-size:12px;color:var(--muted);margin-left:auto}
+
+/* data tables */
+.tw{overflow:auto;max-width:100%}
+.tw.tall{max-height:72vh}
+table.dt{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+.dt th,.dt td{padding:7px 10px;white-space:nowrap;border-bottom:1px solid var(--line);text-align:right;vertical-align:middle}
+.dt th{position:sticky;top:0;z-index:2;background:var(--surface-2);font-weight:600;font-size:11.5px;color:var(--muted)}
+.dt.has-grp tr.grp th{height:26px;padding:4px 10px;text-align:center;font-size:11px;letter-spacing:.03em;color:var(--faint);border-left:1px solid var(--line)}
+.dt.has-grp tr.grp th:first-child{border-left:0}
+.dt.has-grp thead tr:not(.grp) th{top:26px}
+.dt td.l,.dt th.l{text-align:left} .dt td.c,.dt th.c{text-align:center}
+.dt td.n{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.dt .stk{position:sticky;left:0;z-index:1;background:var(--surface);box-shadow:1px 0 0 var(--line)}
+.dt th.stk{z-index:3;background:var(--surface-2)}
+.dt tbody tr:hover td{background:var(--surface-2)}
+.dt th.sortable{cursor:pointer;user-select:none}
+.dt th.sortable:hover{color:var(--text)}
+.dt th.sorted{color:var(--accent)}
+.dt td.sorted{background:color-mix(in srgb,var(--accent-soft) 45%,var(--surface))}
+.dt tbody tr:last-child td{border-bottom:0}
+.dt td.strong{font-weight:700}
+.dt td.rk{color:var(--faint)}
+.dt .dim{color:var(--faint)}
+.mv{font-size:9px;margin-left:3px;vertical-align:1px}
+.mv.up{color:var(--w)} .mv.down{color:var(--l)}
+.mbar{display:inline-block;width:46px;height:5px;background:var(--surface-3);border-radius:3px;vertical-align:middle;margin-left:8px;overflow:hidden}
+.mbar i{display:block;height:100%;background:var(--accent)}
+
+/* team / player links */
+.tl{border:0;background:none;padding:0;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:8px;text-align:left;max-width:100%;min-width:0}
+.dt .tl{max-width:240px}
+.tl .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tl:hover .nm{color:var(--accent);text-decoration:underline}
+.crest{display:inline-grid;place-items:center;border-radius:5px;color:#fff;font-family:var(--f-num);font-weight:600;flex:none;letter-spacing:-.02em}
+img.crest{object-fit:contain;border-radius:0}
+.dt .pn{max-width:260px}
+.pn{border:0;background:none;padding:0;cursor:pointer;text-align:left;font-weight:500;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.pn:hover{color:var(--accent);text-decoration:underline}
+.pos{display:inline-block;font:600 10.5px var(--f-num);padding:1px 5px;border-radius:4px;background:var(--surface-3);color:var(--muted)}
+.form{display:inline-flex;gap:3px;vertical-align:middle}
+.f{display:inline-grid;place-items:center;width:19px;height:19px;border-radius:4px;font:600 10.5px var(--f-num);color:#fff}
+.f.W{background:var(--w)} .f.D{background:var(--d)} .f.L{background:var(--l)} .f.N{background:var(--surface-3)}
+.form.lg{gap:4px} .form.lg .f{width:26px;height:26px;font-size:12px;border-radius:6px}
+
+/* lists */
+.lrow{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 16px;border-top:1px solid var(--line)}
+.lrow:first-child{border-top:0}
+.lrow .rk{color:var(--faint);font:500 12px var(--f-num);text-align:center}
+.lrow .v{font:600 15px var(--f-num)}
+.leaders{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.leaders > div{border-left:1px solid var(--line);min-width:0}
+.leaders h4{margin:0;padding:10px 16px 6px;font-size:12.5px;color:var(--muted);font-weight:600}
+.ins{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line)}
+.ins > div{background:var(--surface);padding:11px 14px;display:grid;gap:4px;min-width:0}
+.ins .k{font-size:12px;color:var(--muted)}
+.ins .v{display:flex;justify-content:space-between;align-items:center;gap:8px;min-width:0}
+.ins .v b{font:600 17px var(--f-num);white-space:nowrap}
+
+/* matches */
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr);gap:10px;align-items:center;padding:9px 16px;border-top:1px solid var(--line)}
+.mrow .h{justify-self:end;min-width:0;max-width:100%}
+.mrow .h .tl{flex-direction:row-reverse;text-align:right}
+.mrow .a{justify-self:start;min-width:0;max-width:100%}
+.mrow .win .nm{font-weight:700}
+.sc{font:600 14px var(--f-num);text-align:center;background:var(--surface-3);border-radius:6px;padding:3px 0}
+.sc.up{background:none;font:500 12px var(--f-num);color:var(--muted)}
+.sc.live{background:var(--l);color:#fff}
+.mmeta{grid-column:1/-1;text-align:center;font-size:11.5px;color:var(--faint);margin-top:-5px}
+.dayhead{padding:7px 16px;font-size:12px;font-weight:600;color:var(--muted);background:var(--surface-2);border-top:1px solid var(--line)}
+.ph + .dayhead{border-top:0}
+@media (max-width:560px){.mrow{grid-template-columns:minmax(0,1fr) 54px minmax(0,1fr);gap:6px;padding:9px 10px}.mrow .tl{font-size:12.5px;gap:5px}.dt .tl{max-width:150px}}
+.mx{border-collapse:collapse;font-size:12px}
+.mx th,.mx td{border:1px solid var(--line);text-align:center}
+.mx thead th{font:600 10.5px var(--f-num);color:var(--muted);background:var(--surface-2);padding:6px 4px;min-width:54px}
+.mx th.rowh{text-align:left;padding:4px 10px;position:sticky;left:0;z-index:1;background:var(--surface-2);font:500 12px var(--f-body);color:var(--text)}
+.mx td{width:54px;height:38px;font:600 13px var(--f-num)}
+.mx td.W{background:color-mix(in srgb,var(--w) 24%,var(--surface))}
+.mx td.D{background:color-mix(in srgb,var(--d) 22%,var(--surface))}
+.mx td.L{background:color-mix(in srgb,var(--l) 22%,var(--surface))}
+.mx td.self{background:var(--surface-3)}
+.mx td.up{font:400 10.5px var(--f-body);color:var(--faint)}
+.legend-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted)}
+.legend-row i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-2px}
+
+/* charts */
+.chart{width:100%;height:auto;display:block}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .axis{fill:var(--faint);font:11px var(--f-num)}
+.chart .axt{fill:var(--muted);font:500 11.5px var(--f-body)}
+.chart .lab{font:600 11px var(--f-num)}
+.chart .q{fill:var(--faint);font:500 11px var(--f-body)}
+.chart .pt{cursor:pointer}
+.chart .pt:hover circle{stroke:var(--text);stroke-width:2}
+.chartwrap{padding:10px 12px 4px}
+.lgnd{display:flex;flex-wrap:wrap;gap:6px;padding:4px 16px 14px}
+.lg{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:3px 8px;font-size:12px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;color:var(--muted)}
+.lg i{width:12px;height:3px;border-radius:2px;background:var(--grey-line)}
+.lg.on{border-color:currentColor;font-weight:600}
+
+/* team header */
+.thead{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:16px}
+.thead h2{margin:0;font-size:24px;line-height:1.2}
+.thead .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:12px;padding:2px 8px;border-radius:5px;background:var(--surface-3);color:var(--muted)}
+.tag b{color:var(--text);font-family:var(--f-num)}
+.back{border:0;background:none;color:var(--accent);cursor:pointer;padding:0;font-weight:600;font-size:13px;justify-self:start}
+.share{display:grid;grid-template-columns:minmax(0,1fr) 34px 44px;gap:4px 10px;align-items:center;padding:7px 16px;border-top:1px solid var(--line);font-size:13px}
+.share:first-child{border-top:0}
+.share .bar{grid-column:1/-1;height:6px;background:var(--surface-3);border-radius:99px;overflow:hidden}
+.share .bar i{display:block;height:100%;background:var(--accent)}
+
+/* compare */
+.cmp-sel{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:end;padding:14px 16px;border-bottom:1px solid var(--line)}
+.csel{display:grid;gap:4px;font-size:12px;min-width:0}
+.csel select{width:100%;border-width:2px;font-weight:500}
+.csel.a span{color:var(--ca)} .csel.b span{color:var(--cb)}
+.csel.a select{border-color:var(--ca)} .csel.b select{border-color:var(--cb)}
+.cmp-sel .vs{font:700 13px var(--f-num);color:var(--faint);padding-bottom:8px}
+.cmp-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px) minmax(0,1fr);gap:14px;padding:14px 16px;align-items:start}
+.tside{background:var(--surface-2);border-radius:8px;padding:12px 14px;border-top:3px solid var(--ca);min-width:0}
+.tside.b{border-top-color:var(--cb)}
+.tside h3{margin:0;font-size:17px;color:var(--ca);line-height:1.3}
+.tside.b h3{color:var(--cb)}
+.tside .ln{font-size:13px;margin-top:5px}
+.tside .formrow{margin:10px 0 6px}
+.radarbox{text-align:center}
+.radarbox .cap{font-size:11.5px;color:var(--faint);margin-top:2px}
+@media (max-width:1100px){.cmp-top{grid-template-columns:1fr 1fr}.radarbox{grid-column:1/-1;grid-row:2}}
+@media (max-width:600px){.cmp-top{grid-template-columns:1fr}.cmp-sel{grid-template-columns:1fr}.cmp-sel .vs{display:none}}
+.vhead{font:600 14px var(--f-display);padding:12px 16px 8px;border-top:1px solid var(--line);display:flex;justify-content:center}
+.vgrid{padding:0 16px 12px;display:grid;gap:7px}
+.vrow{display:grid;grid-template-columns:1fr 150px 1fr;gap:12px;align-items:center}
+.vs-a,.vs-b{display:flex;flex-direction:column;gap:3px;min-width:0}
+.vs-a{align-items:flex-end;text-align:right}
+.vv{font:500 12.5px var(--f-num);white-space:nowrap}
+.vs-a .vv{color:var(--ca)} .vs-b .vv{color:var(--cb)}
+.win .vv{font-weight:700}
+.vb{width:100%;height:8px;border-radius:99px;background:var(--surface-3);display:flex;overflow:hidden}
+.vs-a .vb{justify-content:flex-end}
+.vb i{display:block;height:100%;border-radius:99px;background:var(--ca);opacity:.45}
+.vs-b .vb i{background:var(--cb)}
+.win .vb i{opacity:1}
+.vl{text-align:center;font-size:12.5px;color:var(--muted);line-height:1.3}
+.vhint{display:block;font-size:10px;color:var(--faint)}
+.vrow.txt .vt{font-size:13px;display:inline-flex;gap:8px;align-items:center;max-width:100%}
+@media (max-width:600px){.vrow{grid-template-columns:1fr 84px 1fr;gap:6px}.vgrid{padding:0 10px 12px}.vv{white-space:normal;font-size:11.5px}.vl{font-size:11.5px}}
+
+/* match report */
+button.sc{border:0;cursor:pointer;width:100%;color:inherit}
+button.sc:hover{background:var(--accent);color:var(--accent-ink)}
+.mr-head{padding:18px 18px 14px;border-bottom:1px solid var(--line);position:relative}
+.mr-head .x{position:absolute;right:12px;top:12px}
+.mr-teams{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:14px;align-items:center;margin-top:6px}
+.mr-team{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;min-width:0}
+.mr-team .tl{flex-direction:column;gap:6px;text-align:center}
+.mr-team .tl .nm{white-space:normal;font-weight:600;font-size:15px;line-height:1.3}
+.mr-score{font:700 34px/1 var(--f-num);letter-spacing:.02em;white-space:nowrap}
+.mr-meta{text-align:center;font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.6}
+.mr-sec{padding:10px 18px 4px;font:600 13px var(--f-display);color:var(--muted);border-top:1px solid var(--line);background:var(--surface-2)}
+.tlrow{display:grid;grid-template-columns:minmax(0,1fr) 52px minmax(0,1fr);gap:10px;align-items:center;padding:6px 18px;font-size:13px;border-top:1px solid var(--line)}
+.tlrow .min{font:600 12px var(--f-num);text-align:center;background:var(--surface-3);border-radius:5px;padding:2px 0}
+.tlrow .h{display:flex;justify-content:flex-end;gap:7px;align-items:center;text-align:right;min-width:0}
+.tlrow .a{display:flex;gap:7px;align-items:center;min-width:0}
+.tlrow .pn{display:inline;font-weight:500}
+.tlrow .sc2{font:600 12px var(--f-num);color:var(--muted)}
+.ei{display:inline-grid;place-items:center;flex:none;width:16px;height:16px}
+.ei svg{width:15px;height:15px}
+.ei.Y i,.ei.R i{display:block;width:10px;height:13px;border-radius:2px;background:#f2c200}
+.ei.R i{background:var(--l)}
+.ei.G{color:var(--text)}
+.ei.I{color:var(--w);font-weight:700} .ei.O{color:var(--l);font-weight:700}
+.subtxt{display:block;font-size:11.5px;color:var(--muted)}
+.lineups{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.lineups > div{min-width:0;padding:8px 0 10px}
+.lineups > div + div{border-left:1px solid var(--line)}
+.lu-h{padding:4px 16px 6px;font-size:12px;font-weight:600;color:var(--muted)}
+.lu{display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:6px;align-items:center;padding:3px 16px;font-size:12.5px}
+.lu .no{font:500 11.5px var(--f-num);color:var(--faint);text-align:right}
+.lu .pn{font-weight:500}
+.lu .marks{display:flex;gap:4px;align-items:center;font:500 10.5px var(--f-num);color:var(--muted);white-space:nowrap}
+.lu.unused{color:var(--faint)} .lu.unused .pn{color:var(--faint)}
+.mr-foot{padding:12px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.mr-foot a{color:var(--accent);font-weight:600}
+dialog.wide{width:min(760px,calc(100vw - 24px))}
+@media (max-width:560px){.lineups{grid-template-columns:1fr}.lineups > div + div{border-left:0;border-top:1px solid var(--line)}.mr-score{font-size:28px}.tlrow{padding:6px 10px;grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr)}}
+
+/* modal + toast */
+dialog{border:1px solid var(--line);border-radius:14px;padding:0;width:min(560px,calc(100vw - 24px));max-height:calc(100vh - 40px);background:var(--surface);color:var(--text);box-shadow:0 24px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(6,12,10,.55)}
+.pm-h{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:center;position:relative}
+.pm-h h3{margin:0;font-size:21px;line-height:1.25}
+.pm-h .photo{width:64px;height:64px;border-radius:10px;object-fit:cover;background:var(--surface-3);flex:none}
+.pm-h .x{position:absolute;right:12px;top:12px}
+.pm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.pm-grid > div{background:var(--surface);padding:10px 12px}
+.pm-grid b{display:block;font:600 19px var(--f-num)}
+.pm-grid span{font-size:11.5px;color:var(--muted)}
+@media (max-width:480px){.pm-grid{grid-template-columns:repeat(2,1fr)}}
+.pctl{padding:12px 18px 16px;display:grid;gap:9px}
+.pctl h4{margin:0;font-size:13px}
+.pctl .cap{font-size:11.5px;color:var(--faint);margin-top:-6px}
+.prow{display:grid;grid-template-columns:minmax(0,1fr) auto 40px;gap:2px 10px;align-items:center;font-size:12.5px}
+.prow .val{font-family:var(--f-num);color:var(--muted)}
+.prow .pv{font:600 13px var(--f-num);text-align:right}
+.prow .bar{grid-column:1/-1;height:7px;background:var(--surface-3);border-radius:99px;overflow:hidden}
+.prow .bar i{display:block;height:100%;border-radius:99px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--text);color:var(--surface);padding:8px 14px;border-radius:8px;font-size:13px;z-index:60;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.empty-state{text-align:center;padding:40px 16px;color:var(--muted)}
+.empty-state b{display:block;color:var(--text);font-size:16px;margin-bottom:6px}
+.spinner{width:26px;height:26px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M12 5v14"/><circle cx="12" cy="12" r="2.6"/><path d="M3 9.5h2.5v5H3M21 9.5h-2.5v5H21"/></svg></div>
+      <div style="min-width:0"><h1>สถิติฟุตบอลลีกอีสาน</h1><div class="meta" id="subtitle">ไทยลีก 3 โซนภาคตะวันออกเฉียงเหนือ</div></div>
+    </div>
+    <div class="stamp"><span class="dot"></span><span id="updated"></span>
+      <button class="iconbtn" id="refreshBtn" data-act="refresh" title="ดึงข้อมูลใหม่" aria-label="ดึงข้อมูลใหม่"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></svg></button></div>
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="ค้นหานักเตะหรือทีม" autocomplete="off">
+      <div class="search-res" id="qres" hidden></div>
+    </div>
+    <nav class="topnav" id="topnav"></nav>
+  </div>
+</header>
+<div class="shell">
+  <nav class="rail" id="rail"></nav>
+  <main id="view"></main>
+</div>
+<footer>ข้อมูลจาก <a href="https://thaileague.co.th" target="_blank" rel="noopener">thaileague.co.th</a> · เว็บไซต์ส่วนตัว ไม่ใช่เว็บไซต์ทางการของไทยลีก</footer>
+<dialog id="pm"></dialog>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+'use strict';
+/* ================= ตั้งค่า ================= */
+const CONFIG = {
+  zone: 'NORTHEAST',        // โซน: NORTHEAST, NORTH, SOUTH, EAST, WEST, CENTRAL
+  tournamentId: null,       // null = หาไทยลีก 3 ฤดูกาลปัจจุบันให้อัตโนมัติ (หรือใส่เลข เช่น 228)
+  cacheMinutes: 15,         // เก็บข้อมูลไว้ในเครื่องผู้ชมกี่นาทีก่อนดึงใหม่
+};
+const API = 'https://competition.tl.prod.c0d1um.io/thaileague/api/';
+const SNAPSHOT = window.__SNAPSHOT__ || (window.__SNAPSHOT_C__ ? expandCompact(window.__SNAPSHOT_C__) : null);   // ข้อมูลฝังในหน้า (ใช้เมื่อเปิดในที่ที่ดึงข้อมูลภายนอกไม่ได้)
+/* ข้อมูลฝังแบบย่อ: teams = [ชื่อไทย, อังกฤษ, ชื่อย่อ, อันดับ, อันดับก่อน, P, W, D, L, GF, GA, GD, Pts], M = แมตช์คั่นด้วย ; , N = ชื่อนักเตะคั่นด้วย | , P = สถิตินักเตะคั่นด้วย ; */
+function expandCompact(o){
+  const teams = (o.teams || []).map(t => ({ th: t[0], en: t[1], short: t[2], rank: t[3], prevRank: t[4], official: { p: t[5], w: t[6], d: t[7], l: t[8], gf: t[9], ga: t[10], gd: t[11], pts: t[12] } }));
+  const ST = { '0': 'ft', '1': 'ns' }, venues = o.venues || [];
+  const R = o.R ? o.R.split('~') : [];
+  const matches = o.M ? o.M.split(';').map((r, i) => { const f = r.split(','), rp = R[i] ? decodeReport(R[i]) : {};
+    return { round: f[0], date: f[1], time: f[2], home: teams[+f[3]].th, away: teams[+f[4]].th, hs: f[5] === '' ? null : +f[5], as: f[6] === '' ? null : +f[6], status: ST[f[7]] || f[7], venue: venues[+f[8]] || '',
+      id: rp.id || null, att: rp.att || null, rep: rp.rep || null }; }) : [];
+  const names = o.N ? o.N.split('|') : [];
+  const K = ['mp','min','starts','bench','subIn','subOut','goals','assists','yc','rc','cs','conceded','pen','penMiss','og','motm'];
+  const players = o.P ? o.P.split(';').map((r, i) => { const f = r.split(',');
+    const p = { team: teams[+f[0]].th, no: f[1], name: names[i] || '', pos: f[2], country: f[3] }; K.forEach((k, j) => p[k] = +(f[4 + j] || 0)); return p; }) : [];
+  return { meta: o.meta || {}, teams, matches, players };
+}
+/* รายงานแมตช์แบบย่อ: id^ผู้ชม^ผู้ตัดสิน^ตัวจริง/สำรองเหย้า^ตัวจริง/สำรองเยือน^เหตุการณ์(นาที,ชนิด,ฝั่ง,เบอร์!...) */
+function decodeReport(str){
+  const f = String(str).split('^'), out = { id: +f[0] || null, att: f[1] === '' || f[1] == null ? null : +f[1], rep: null };
+  if (f.length >= 6) {
+    const lu = x => { const [s, b] = (x || '/').split('/'); const nums = y => y ? y.split('.').filter(Boolean).map(Number) : []; return { s: nums(s), b: nums(b) }; };
+    out.rep = { ref: f[2] || '', h: lu(f[3]), a: lu(f[4]), ev: f[5] ? f[5].split('!').map(e => { const [min, t, side, no] = e.split(','); return { min, t, side, no: +no }; }) : [] };
+  }
+  return out;
+}
+const CACHE_KEY = 'tl3-stats-' + CONFIG.zone + '-v1';
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num = v => { if (v === '' || v == null) return 0; const n = Number(String(v).replace(/,/g, '').trim()); return Number.isFinite(n) ? n : 0; };
+const norm = s => String(s ?? '').toLowerCase().replace(/[\s_\-.()]/g, '');
+const clean = s => String(s ?? '').replace(/\s+/g, ' ').trim();
+const TH_MON = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const TH_DAY = ['อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'];
+function fmtDate(iso, withDay){
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || '');
+  if (!m) return iso || '';
+  const d = new Date(+m[1], +m[2] - 1, +m[3]);
+  return `${withDay ? TH_DAY[d.getDay()] + ' ' : ''}${+m[3]} ${TH_MON[+m[2]-1]} ${String(+m[1] + 543).slice(-2)}`;
+}
+const fmtN = n => Number(n || 0).toLocaleString('th-TH');
+const f2 = v => v == null ? '–' : (Math.round(v * 100) / 100).toFixed(2);
+const sign = v => (v > 0 ? '+' : '') + v;
+const PCT = (n, d) => d ? Math.round(n / d * 100) : 0;
+const avg = a => a.length ? a.reduce((s, v) => s + v, 0) / a.length : 0;
+const CREST = ['#1f5f99','#a6461c','#2f7d4f','#7a3f98','#8f7410','#256f78','#b03a5b','#4a5a70','#5f7f1f','#8b4b2b','#3d4fa0','#6f6255'];
+function teamColor(name){ let h = 0; for (const c of String(name)) h = (h * 31 + c.codePointAt(0)) >>> 0; return CREST[h % CREST.length]; }
+function initials(t){
+  if (t.short) return t.short.replace(/[^A-Za-z0-9ก-๙]/g, '').slice(0, 3).toUpperCase();
+  const en = (t.en || '').split(/\s+/).filter(w => /^[A-Za-z]/.test(w) && !/^(fc|united|city|club|football)$/i.test(w));
+  return en.length ? en.map(w => w[0]).join('').slice(0, 3).toUpperCase() : ([...(t.th || '?')][0]);
+}
+const shortName = t => t.short || initials(t);
+function timeAgo(ts){
+  const s = Math.round((Date.now() - ts) / 1000);
+  if (s < 60) return 'เมื่อสักครู่';
+  if (s < 3600) return Math.floor(s / 60) + ' นาทีที่แล้ว';
+  if (s < 86400) return Math.floor(s / 3600) + ' ชั่วโมงที่แล้ว';
+  return new Date(ts).toLocaleString('th-TH', { dateStyle:'medium', timeStyle:'short' });
+}
+const chartW = () => { const w = ($('#view') || {}).clientWidth || 700; return Math.max(340, Math.min(700, w < 640 ? w - 24 : 700)); };
+let toastT;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2200); }
+
+/* ---------- positions ---------- */
+function posKey(p){
+  const s = norm(p);
+  if (!s) return '';
+  if (/^(gk|g)$|goal|ผู้รักษา/.test(s)) return 'GK';
+  if (/^(df|d|cb|lb|rb)$|def|back|กองหลัง/.test(s)) return 'DF';
+  if (/^(mf|m|cm|dm|am)$|mid|กองกลาง/.test(s)) return 'MF';
+  if (/^(fw|f|st|cf|lw|rw)$|forw|strik|wing|กองหน้า/.test(s)) return 'FW';
+  return '';
+}
+const POS_TH = { GK:'ผู้รักษาประตู', DF:'กองหลัง', MF:'กองกลาง', FW:'กองหน้า' };
+const POS_ORDER = { GK:0, DF:1, MF:2, FW:3, '':4 };
+const posLabel = p => POS_TH[posKey(p)] || p || '-';
+const posTag = p => { const k = posKey(p.pos); return k ? `<span class="pos" title="${POS_TH[k]}">${k}</span>` : '<span class="dim">–</span>'; };
+const isGK = p => posKey(p.pos) === 'GK';
+const FOREIGN = c => !!c && !/^(ไทย|thai|th|tha|thailand)$/i.test(c);
+const PLAYER_NUM = ['no','mp','min','starts','bench','subIn','subOut','goals','assists','yc','rc','cs','conceded','pen','penMiss','og','motm'];
+
+/* ---------- icons ---------- */
+const ICON = {
+  overview: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>',
+  table: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h16M8 3v18"/></svg>',
+  results: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  players: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>',
+  teams: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/></svg>',
+  compare: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4v16M17 4v16M3 8h8M13 16h8"/></svg>',
+  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+};
+const NAV = [['overview','ภาพรวม'],['table','ตารางคะแนน'],['results','โปรแกรม/ผล'],['players','นักเตะ'],['teams','ทีม'],['compare','เปรียบเทียบ']];
+
+/* ================= ดึงข้อมูลจาก API ไทยลีก ================= */
+async function api(path){
+  const r = await fetch(path.startsWith('http') ? path : API + path);
+  if (!r.ok) throw new Error(`HTTP ${r.status} (${path.split('?')[0]})`);
+  return r.json();
+}
+const asList = j => Array.isArray(j) ? j : (j && j.results) || [];
+async function allPages(path){
+  let url = API + path, out = [], guard = 0;
+  while (url && guard++ < 20) { const j = await api(url); out.push(...asList(j)); url = j && j.next; }
+  return out;
+}
+async function findTournament(){
+  const list = asList(await api('tournament-public/?latest_activated_season=True&show_in_public_website=True'));
+  if (CONFIG.tournamentId) return list.find(t => t.id === CONFIG.tournamentId) || { id: CONFIG.tournamentId, name: '', name_en: '' };
+  const t = list.find(t => /league\s*(iii|3)\b/i.test(t.name_en || '') || /ลีก\s*(สาม|3)/.test(t.name || ''));
+  if (!t) throw new Error('ไม่พบรายการไทยลีก 3 ของฤดูกาลปัจจุบัน');
+  return t;
+}
+async function fetchLive(){
+  const t = await findTournament();
+  const stages = asList(await api(`stage-dropdown-public/?tournament=${t.id}`));
+  const stage = stages.find(s => norm(s.name_en || s.name) === norm(CONFIG.zone));
+  if (!stage) throw new Error(`ไม่พบโซน ${CONFIG.zone} (มี: ${stages.map(s => s.name_en || s.name).join(', ')})`);
+  const [standing, matches] = await Promise.all([
+    api(`stage-standing-public/dashboard/?tournament=${t.id}&stage=${stage.id}`).then(asList),
+    api(`match-day-match-public/?tournament=${t.id}&stage=${stage.id}&only_valid_match=true&none_pagination=True`).then(asList),
+  ]);
+  const squads = await Promise.all(standing.map(s => allPages(`player-public/all_players_search/?tournament=${t.id}&tournament_team=${s.tournament_team}`)));
+  const alias = new Map();
+  matches.forEach(m => { if (m.home_team_alias) alias.set(m.home_team, m.home_team_alias); if (m.away_team_alias) alias.set(m.away_team, m.away_team_alias); });
+  const nameById = new Map();
+  const teams = standing.slice().sort((a, b) => (a.current_rank || 99) - (b.current_rank || 99)).map(s => {
+    const th = clean(s.tournament_team_name);
+    nameById.set(s.tournament_team, th);
+    return { id: s.tournament_team, th, en: clean(s.tournament_team_name_en), short: clean(alias.get(s.tournament_team)), logo: s.tournament_team_logo || '',
+      rank: s.current_rank, prevRank: s.previous_rank,
+      official: { p: s.match_play, w: s.win, d: s.draw, l: s.lose, gf: s.goal_for, ga: s.goal_against, gd: s.goal_difference, pts: s.point } };
+  });
+  const tname = (id, fallback) => nameById.get(id) || clean(fallback);
+  return {
+    meta: { title: clean(t.name) || 'ไทยลีก 3', titleEn: clean(t.name_en), zone: stage.name_en || stage.name, updated: Date.now(), tid: t.id },
+    teams,
+    matches: matches.map(m => {
+      const fin = m.match_status === 2 && !m.is_cancel;
+      return { id: m.id, round: m.match_day_name, date: m.start_date, time: (m.start_time || '').slice(0, 5),
+        home: tname(m.home_team, m.home_team_name), away: tname(m.away_team, m.away_team_name),
+        hs: fin ? m.home_goal_count : null, as: fin ? m.away_goal_count : null,
+        status: m.is_cancel ? 'cancel' : fin ? 'ft' : m.match_status === 0 ? 'ns' : 'live',
+        liveScore: m.match_status !== 0 && !fin ? `${m.home_goal_count ?? 0} - ${m.away_goal_count ?? 0}` : '',
+        venue: clean(m.stadium_name), no: m.match_no, att: m.attendance_number ?? null };
+    }),
+    players: squads.flatMap((list, i) => list.map(p => ({
+      team: nameById.get(standing[i].tournament_team), no: p.tnm_shirt_number ?? p.shirt_number ?? '',
+      name: clean(p.full_name) || clean(p.full_name_en), full: clean(p.full_name_en), shirt: clean(p.shirt_name),
+      pos: p.position_short_name || p.position_name || '', country: (p.nationality && (p.nationality.name || p.nationality.code)) || '',
+      photo: p.tnm_photo || p.photo || '', age: p.age,
+      mp: p.match_count, min: p.total_time, starts: p.total_line_up, bench: p.total_subtitutes_on_bench,
+      subIn: p.total_substitute_in, subOut: p.total_substitute_out, goals: p.goal_for, assists: p.total_assist,
+      yc: p.yellow_card, rc: num(p.red_card_serious_foul_play) + num(p.red_card_violent_conduct) + num(p.second_yellow_count),
+      cs: p.clean_sheet, conceded: Math.abs(num(p.goal_against)), pen: p.penalty_goal, penMiss: p.penalty_goal_miss,
+      og: p.own_goal, motm: p.total_man_of_the_match,
+    }))),
+  };
+}
+
+/* ---------- state ---------- */
+const S = { data: null, d: null, loading: false, error: '', tab: 'overview', tableMode: 'all', resMode: 'round', round: null,
+  team: null, cmpMode: 'teams', cmp: ['', ''], sorts: {}, race: null,
+  pf: { q: '', team: '', pos: '', min: 0, preset: 'goals' } };
+
+/* ---------- normalise & derive ---------- */
+function normalizeData(src){
+  const teams = [], lookup = new Map();
+  const addTeam = t => {
+    const th = clean(t.th);
+    if (!th) return null;
+    if (lookup.has(norm(th))) return lookup.get(norm(th));
+    const team = Object.assign({}, t, { th });
+    teams.push(team);
+    for (const k of [team.th, team.en, team.short]) if (k && !lookup.has(norm(k))) lookup.set(norm(k), team);
+    return team;
+  };
+  (src.teams || []).forEach(addTeam);
+  const resolve = name => { const s = clean(name); return s ? (lookup.get(norm(s)) || addTeam({ th: s })) : null; };
+  const matches = (src.matches || []).map((m, i) => {
+    const home = resolve(m.home), away = resolve(m.away);
+    if (!home || !away) return null;
+    const played = m.hs != null && m.as != null;
+    const r = parseInt(m.round, 10);
+    return Object.assign({}, m, { i, round: Number.isFinite(r) ? r : null, home: home.th, away: away.th,
+      hs: played ? num(m.hs) : null, as: played ? num(m.as) : null, played });
+  }).filter(Boolean);
+  const players = (src.players || []).map((p, i) => {
+    const team = resolve(p.team);
+    if (!clean(p.name)) return null;
+    const o = Object.assign({}, p, { id: i, team: team ? team.th : '', name: clean(p.name) });
+    for (const k of PLAYER_NUM) o[k] = num(p[k]);
+    o.ga = o.goals + o.assists;
+    return o;
+  }).filter(Boolean);
+  return { meta: src.meta || {}, teams, matches, players };
+}
+const byOrder = (a, b) => (a.date || '9999').localeCompare(b.date || '9999') || (a.time || '').localeCompare(b.time || '') || (a.round ?? 999) - (b.round ?? 999) || a.i - b.i;
+const blankRow = team => ({ team, p:0, w:0, d:0, l:0, gf:0, ga:0, gd:0, pts:0, res:[], pos:0 });
+function addResult(r, gf, ga, m){
+  r.p++; r.gf += gf; r.ga += ga; r.gd = r.gf - r.ga;
+  const res = gf > ga ? 'W' : gf < ga ? 'L' : 'D';
+  r[res === 'W' ? 'w' : res === 'D' ? 'd' : 'l']++;
+  r.pts += res === 'W' ? 3 : res === 'D' ? 1 : 0;
+  r.res.push({ r: res, m });
+}
+function sortRows(rows){
+  rows.sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.team.th.localeCompare(b.team.th, 'th'));
+  rows.forEach((r, k) => r.pos = k + 1);
+  return rows;
+}
+function derive(data){
+  const played = data.matches.filter(m => m.played).sort(byOrder);
+  const build = mode => {
+    const map = new Map(data.teams.map(t => [t.th, blankRow(t)]));
+    for (const m of played) {
+      if (mode !== 'away') addResult(map.get(m.home), m.hs, m.as, m);
+      if (mode !== 'home') addResult(map.get(m.away), m.as, m.hs, m);
+    }
+    return map;
+  };
+  const allMap = build('all');
+  let all = [...allMap.values()];
+  if (data.teams.every(t => t.official && t.rank)) {      // ตารางรวมใช้ตัวเลขทางการของไทยลีก
+    all.forEach(r => Object.assign(r, r.team.official));
+    all.sort((a, b) => a.team.rank - b.team.rank);
+    all.forEach(r => r.pos = r.team.rank);
+  } else all = sortRows(all);
+  const formRows = [...allMap.values()].map(r => {
+    const f = blankRow(r.team);
+    r.res.slice(-5).forEach(x => { const home = x.m.home === r.team.th; addResult(f, home ? x.m.hs : x.m.as, home ? x.m.as : x.m.hs, x.m); });
+    return f;
+  });
+  const tables = { all, home: sortRows([...build('home').values()]), away: sortRows([...build('away').values()]), form: sortRows(formRows) };
+  const formOf = new Map([...allMap.values()].map(r => [r.team.th, r.res.slice(-5)]));
+  const teamBy = new Map(data.teams.map(t => [t.th, t]));
+  const playersBy = new Map(data.teams.map(t => [t.th, []]));
+  data.players.forEach(p => { if (!playersBy.has(p.team)) playersBy.set(p.team, []); playersBy.get(p.team).push(p); });
+  const rounds = [...new Set(data.matches.map(m => m.round).filter(r => r != null))].sort((a, b) => a - b);
+  const posOf = new Map(all.map(r => [r.team.th, r]));
+  const maxRound = played.reduce((a, m) => Math.max(a, m.round || 0), 0);
+  const race = new Map(data.teams.map(t => [t.th, Array(maxRound + 1).fill(0)]));
+  played.forEach(m => {
+    const h = race.get(m.home), a = race.get(m.away);
+    if (!m.round || !h || !a) return;
+    h[m.round] += m.hs > m.as ? 3 : m.hs === m.as ? 1 : 0;
+    a[m.round] += m.as > m.hs ? 3 : m.hs === m.as ? 1 : 0;
+  });
+  race.forEach(arr => { for (let i = 1; i < arr.length; i++) arr[i] += arr[i - 1]; });
+  const upcoming = data.matches.filter(m => !m.played && m.status !== 'cancel');
+  const nextRound = upcoming.reduce((a, m) => m.round != null && (a == null || m.round < a) ? m.round : a, null);
+  data.players.forEach(p => {
+    const tP = (posOf.get(p.team) || {}).p || 0;
+    const q = v => p.min >= 90 ? v / p.min * 90 : null;
+    p.x = { g90: q(p.goals), a90: q(p.assists), ga90: q(p.ga), yc90: q(p.yc), con90: q(p.conceded),
+      minPct: tP ? p.min / (tP * 90) * 100 : 0, startPct: tP ? p.starts / tP * 100 : 0,
+      motmRate: p.mp ? p.motm / p.mp : 0, csRate: p.mp ? p.cs / p.mp : 0 };
+  });
+  const pByNo = new Map(); data.players.forEach(p => { if (p.no !== '' && p.no != null) pByNo.set(p.team + '#' + p.no, p); });
+  const d = { tables, formOf, played, teamBy, playersBy, rounds, posOf, maxRound, race, nextRound, pByNo };
+  d.tm = buildMetrics(data, d);
+  return d;
+}
+function buildMetrics(data, d){
+  const out = new Map();
+  for (const t of data.teams) {
+    const r = d.posOf.get(t.th) || blankRow(t);
+    const home = d.tables.home.find(x => x.team.th === t.th) || blankRow(t);
+    const away = d.tables.away.find(x => x.team.th === t.th) || blankRow(t);
+    const games = d.played.filter(x => x.home === t.th || x.away === t.th);
+    const gfOf = x => x.home === t.th ? x.hs : x.as, gaOf = x => x.home === t.th ? x.as : x.hs;
+    const res = games.map(x => gfOf(x) > gaOf(x) ? 'W' : gfOf(x) < gaOf(x) ? 'L' : 'D');
+    const run = ok => { let n = 0; for (let i = res.length - 1; i >= 0 && ok(res[i]); i--) n++; return n; };
+    const f5 = res.slice(-5);
+    const ps = d.playersBy.get(t.th) || [];
+    const used = ps.filter(p => p.mp > 0);
+    const sum = k => ps.reduce((a, p) => a + p[k], 0);
+    const P = r.p || 0;
+    const next = data.matches.filter(m => !m.played && m.status !== 'cancel' && (m.home === t.th || m.away === t.th)).sort(byOrder)[0];
+    out.set(t.th, { t, r, home, away, games, res, P, next, gfOf, gaOf,
+      ppg: P ? r.pts / P : 0, gfpg: P ? r.gf / P : 0, gapg: P ? r.ga / P : 0,
+      cs: games.filter(x => gaOf(x) === 0).length, fts: games.filter(x => gfOf(x) === 0).length,
+      f5pts: f5.reduce((a, x) => a + (x === 'W' ? 3 : x === 'D' ? 1 : 0), 0), f5n: f5.length,
+      f5gf: games.slice(-5).reduce((a, x) => a + gfOf(x), 0), f5ga: games.slice(-5).reduce((a, x) => a + gaOf(x), 0),
+      hppg: home.p ? home.pts / home.p : 0, appg: away.p ? away.pts / away.p : 0,
+      unbeaten: run(x => x !== 'L'), winless: run(x => x !== 'W'), winrun: run(x => x === 'W'),
+      yc: sum('yc'), rc: sum('rc'), used: used.length, foreign: used.filter(p => FOREIGN(p.country)).length,
+      goalsPl: sum('goals'), foreignGoals: ps.filter(p => FOREIGN(p.country)).reduce((a, p) => a + p.goals, 0),
+      scorers: ps.filter(p => p.goals > 0).length, ps });
+  }
+  return out;
+}
+function setData(raw){
+  S.data = normalizeData(raw);
+  S.d = derive(S.data);
+  if (S.team && !S.d.teamBy.has(S.team)) S.team = null;
+  if (!S.race) S.race = S.d.tables.all.slice(0, 4).map(r => r.team.th);
+  const m = S.data.meta;
+  $('#subtitle').textContent = [m.title, m.zone ? 'โซน' + (ZONE_TH[norm(m.zone)] || m.zone) : ''].filter(Boolean).join(' · ');
+  updateStamp();
+}
+const ZONE_TH = { northeast:'ภาคตะวันออกเฉียงเหนือ', north:'ภาคเหนือ', south:'ภาคใต้', east:'ภาคตะวันออก', west:'ภาคตะวันตก', central:'ภาคกลาง' };
+function updateStamp(){
+  const u = S.data && S.data.meta.updated;
+  if (SNAPSHOT) { $('#updated').textContent = u ? 'ข้อมูล ณ ' + new Date(u).toLocaleString('th-TH', { dateStyle:'medium', timeStyle:'short' }) : ''; $('#refreshBtn').hidden = true; return; }
+  $('#updated').textContent = S.loading ? 'กำลังดึงข้อมูล…' : u ? 'อัปเดต ' + timeAgo(u) : '';
+  $('#refreshBtn').disabled = S.loading;
+}
+function leagueSummary(){
+  const pl = S.d.played, n = pl.length;
+  const goals = pl.reduce((a, m) => a + m.hs + m.as, 0);
+  const hw = pl.filter(m => m.hs > m.as).length, dr = pl.filter(m => m.hs === m.as).length;
+  return { n, goals, hw, dr, aw: n - hw - dr,
+    total: S.data.matches.filter(m => m.status !== 'cancel').length,
+    btts: pl.filter(m => m.hs > 0 && m.as > 0).length, over25: pl.filter(m => m.hs + m.as > 2).length,
+    yc: S.data.players.reduce((a, p) => a + p.yc, 0), rc: S.data.players.reduce((a, p) => a + p.rc, 0),
+    big: pl.slice().sort((a, b) => Math.abs(b.hs - b.as) - Math.abs(a.hs - a.as) || (b.hs + b.as) - (a.hs + a.as))[0] };
+}
+
+/* ---------- small renderers ---------- */
+function crest(t, size = 20){
+  if (t && t.logo) return `<img class="crest" src="${esc(t.logo)}" alt="" loading="lazy" style="width:${size}px;height:${size}px">`;
+  return `<span class="crest" style="width:${size}px;height:${size}px;background:${teamColor(t ? t.th : '')};font-size:${Math.max(8, Math.round(size * .36))}px">${esc(initials(t || {}))}</span>`;
+}
+function tl(th, size = 20){
+  const t = S.d.teamBy.get(th) || { th };
+  return `<button class="tl" data-team="${esc(th)}" title="${esc(t.th)}">${crest(t, size)}<span class="nm">${esc(t.th)}</span></button>`;
+}
+const pn = p => `<button class="pn" data-player="${p.id}" title="${esc(p.name)}">${esc(p.name)}</button>`;
+function formHtml(list, lg){
+  const cells = list.map(x => { const m = x.m;
+    return `<span class="f ${x.r}" title="${esc(`${m.home} ${m.hs}-${m.as} ${m.away}${m.date ? ' · ' + fmtDate(m.date) : ''}`)}">${x.r}</span>`; });
+  while (cells.length < 5) cells.unshift('<span class="f N"></span>');
+  return `<span class="form${lg ? ' lg' : ''}">${cells.join('')}</span>`;
+}
+const panel = (title, body, tools = '', note = '') => `<section class="panel"><div class="ph"><h3>${title}</h3>${tools}</div>${body}${note ? `<div class="pnote">${note}</div>` : ''}</section>`;
+const pagehead = (title, sub, tools = '') => `<div class="pagehead"><div><h2>${title}</h2>${sub ? `<p>${sub}</p>` : ''}</div>${tools}</div>`;
+const seg = (key, cur, items) => `<div class="seg" role="tablist">${items.map(([v, l]) => `<button role="tab" aria-selected="${v === cur}" class="${v === cur ? 'on' : ''}" data-set="${key}:${v}">${l}</button>`).join('')}</div>`;
+const emptyState = (title, body = '') => `<section class="panel"><div class="empty-state"><b>${esc(title)}</b>${body}</div></section>`;
+function maxBy(list, f){ let best = null, bv = -Infinity, ties = 0; list.forEach(x => { const v = f(x); if (v > bv) { bv = v; best = x; ties = 0; } else if (v === bv) ties++; }); return { item: best, v: bv, ties }; }
+
+/* generic sortable data table */
+function dataTable(id, cols, rows, def, opt = {}){
+  const st = S.sorts[id] || (S.sorts[id] = { k: def.k, dir: def.dir });
+  const col = cols.find(c => c.k === st.k && !c.nosort) || cols.find(c => c.k === def.k);
+  const gv = c => r => c.v ? c.v(r) : r[c.k];
+  if (col) {
+    const g = gv(col), dir = col.k === st.k ? st.dir : def.dir;
+    rows = rows.slice().sort((a, b) => {
+      const x = g(a), y = g(b);
+      if (x == null && y == null) return opt.tie ? opt.tie(a, b) : 0;
+      if (x == null) return 1; if (y == null) return -1;
+      const c = typeof x === 'string' || typeof y === 'string' ? String(x).localeCompare(String(y), 'th') : x === y ? 0 : x < y ? -1 : 1;
+      return c * dir || (opt.tie ? opt.tie(a, b) : 0);
+    });
+  }
+  const cls = c => [c.l ? 'l' : c.c ? 'c' : '', !c.l && !c.c ? 'n' : '', c.stk ? 'stk' : '', c.cls || ''].filter(Boolean).join(' ');
+  let grp = '';
+  if (cols.some(c => c.grp)) {
+    const cells = []; let cur, span = 0;
+    cols.forEach((c, i) => { const g = c.grp || ''; if (i && g === cur) span++; else { if (i) cells.push([cur, span]); cur = g; span = 1; } });
+    cells.push([cur, span]);
+    grp = `<tr class="grp">${cells.map(([g, s]) => `<th colspan="${s}">${esc(g)}</th>`).join('')}</tr>`;
+  }
+  const head = cols.map(c => {
+    const on = col && c.k === col.k;
+    return `<th class="${cls(c)}${c.nosort ? '' : ' sortable'}${on ? ' sorted' : ''}" ${c.nosort ? '' : `data-sort="${id}" data-key="${c.k}" data-asc="${c.asc ? 1 : 0}"`} title="${esc(c.title || '')}" ${on ? `aria-sort="${st.dir > 0 ? 'ascending' : 'descending'}"` : ''}>${c.label}${on ? (st.dir < 0 ? ' ↓' : ' ↑') : ''}</th>`;
+  }).join('');
+  const body = rows.map((r, i) => `<tr>${cols.map(c => {
+    const v = gv(c)(r);
+    return `<td class="${cls(c)}${col && c.k === col.k ? ' sorted' : ''}">${c.f ? c.f(r, v, i) : (v == null ? '<span class="dim">–</span>' : esc(v))}</td>`;
+  }).join('')}</tr>`).join('');
+  return `<div class="tw${opt.tall ? ' tall' : ''}"><table class="dt${grp ? ' has-grp' : ''}"><thead>${grp}<tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+
+/* ---------- charts (SVG) ---------- */
+function niceStep(raw){ const p = Math.pow(10, Math.floor(Math.log10(raw || 1))), f = raw / p; return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * p; }
+function lineChart(lines, R, o = {}){
+  const W = o.w || chartW(), H = Math.round(W * (W < 500 ? .62 : .46)), ml = 30, mr = o.mr ?? 86, mt = 12, mb = 34;
+  const iw = W - ml - mr, ih = H - mt - mb;
+  const top = Math.max(3, ...lines.map(l => Math.max(...l.pts)));
+  const step = top <= 8 ? 1 : top <= 16 ? 2 : top <= 36 ? 5 : 10;
+  const ymax = Math.ceil(top / step) * step;
+  const x = i => ml + (R ? i / R * iw : 0), y = v => mt + ih - v / ymax * ih;
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.aria || 'กราฟ')}">`;
+  for (let v = 0; v <= ymax; v += step) s += `<line class="grid" x1="${ml}" x2="${ml + iw}" y1="${y(v)}" y2="${y(v)}"/><text class="axis" x="${ml - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+  const xs = R > 12 && W < 520 ? 2 : 1;
+  for (let i = 0; i <= R; i += xs) s += `<text class="axis" x="${x(i)}" y="${mt + ih + 16}" text-anchor="middle">${i}</text>`;
+  s += `<text class="axt" x="${ml + iw / 2}" y="${H - 2}" text-anchor="middle">นัดที่</text>`;
+  const labels = [];
+  lines.forEach(l => {
+    const d = l.pts.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join('');
+    s += `<path d="${d}" fill="none" style="stroke:${l.color}" stroke-width="${l.w || 1.5}" ${l.dash ? 'stroke-dasharray="5 4"' : ''} stroke-linejoin="round" stroke-linecap="round"><title>${esc(l.title || l.label || '')}: ${l.pts[l.pts.length - 1]} แต้ม</title></path>`;
+    if (l.dots) l.pts.forEach((v, i) => { if (i) s += `<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="2.8" style="fill:${l.color}"/>`; });
+    if (l.label) labels.push({ y: y(l.pts[l.pts.length - 1]), t: l.label, c: l.color });
+  });
+  labels.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 13) labels[i].y = labels[i - 1].y + 13;
+  labels.forEach(lb => s += `<text class="lab" x="${x(R) + 8}" y="${(lb.y + 4).toFixed(1)}" style="fill:${lb.c}">${esc(lb.t)}</text>`);
+  return s + '</svg>';
+}
+function goalsChart(m){
+  const g = m.games;
+  if (!g.length) return '<div class="pb muted">ยังไม่มีผลการแข่งขัน</div>';
+  const W = chartW(), H = Math.round(W * .36), ml = 26, mr = 8, mt = 16, mb = 36, iw = W - ml - mr, ih = H - mt - mb;
+  const mx = Math.max(3, ...g.map(m.gfOf), ...g.map(m.gaOf));
+  const mid = mt + ih / 2, k = (ih / 2 - 2) / mx, slot = iw / g.length, bw = Math.min(30, slot * .6);
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="ประตูได้และเสียรายนัด">`;
+  s += `<line class="grid" x1="${ml}" x2="${ml + iw}" y1="${mid}" y2="${mid}"/>`;
+  s += `<text class="axis" x="${ml - 6}" y="${mt + 8}" text-anchor="end">${mx}</text><text class="axis" x="${ml - 6}" y="${mid + 4}" text-anchor="end">0</text><text class="axis" x="${ml - 6}" y="${mt + ih}" text-anchor="end">${mx}</text>`;
+  g.forEach((x, i) => {
+    const cx = ml + (i + .5) * slot, gf = m.gfOf(x), ga = m.gaOf(x), r = m.res[i];
+    const opp = x.home === m.t.th ? x.away : x.home, ha = x.home === m.t.th ? 'เหย้า' : 'เยือน';
+    s += `<g><title>นัดที่ ${x.round ?? '-'} · ${ha} พบ ${esc(opp)} · ${gf}-${ga}</title>`;
+    if (gf) s += `<rect x="${cx - bw / 2}" y="${mid - gf * k}" width="${bw}" height="${gf * k}" rx="2" style="fill:var(--accent)"/><text class="axis" x="${cx}" y="${mid - gf * k - 4}" text-anchor="middle">${gf}</text>`;
+    if (ga) s += `<rect x="${cx - bw / 2}" y="${mid}" width="${bw}" height="${ga * k}" rx="2" style="fill:var(--l)" opacity=".75"/><text class="axis" x="${cx}" y="${mid + ga * k + 12}" text-anchor="middle">${ga}</text>`;
+    s += `<rect x="${cx - 7}" y="${H - 30}" width="14" height="14" rx="3" style="fill:var(--${r === 'W' ? 'w' : r === 'D' ? 'd' : 'l'})"/><text x="${cx}" y="${H - 19.5}" text-anchor="middle" style="fill:#fff;font:600 9px var(--f-num)">${r}</text>`;
+    s += `<text class="axis" x="${cx}" y="${H - 3}" text-anchor="middle">${x.round ?? ''}</text></g>`;
+  });
+  return s + '</svg>';
+}
+function scatter(pts, o){
+  const W = chartW(), H = Math.round(W * (W < 500 ? .8 : .58)), ml = 44, mr = 18, mt = 16, mb = 42, iw = W - ml - mr, ih = H - mt - mb;
+  const ext = vals => { const a = Math.min(...vals), b = Math.max(...vals), p = (b - a) * .14 || .5; return [Math.max(0, a - p), b + p]; };
+  const [x0, x1] = ext(pts.map(p => p.x)), [y0, y1] = ext(pts.map(p => p.y));
+  const X = v => ml + (v - x0) / (x1 - x0) * iw, Y = v => mt + (v - y0) / (y1 - y0) * ih;  // แกน Y กลับด้าน: เสียน้อยอยู่บน
+  const ticks = (a, b) => { const st = niceStep((b - a) / 5), out = []; for (let v = Math.ceil(a / st) * st; v <= b + 1e-9; v += st) out.push(+v.toFixed(4)); return out; };
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.aria)}">`;
+  ticks(x0, x1).forEach(v => s += `<line class="grid" x1="${X(v)}" x2="${X(v)}" y1="${mt}" y2="${mt + ih}"/><text class="axis" x="${X(v)}" y="${mt + ih + 15}" text-anchor="middle">${v}</text>`);
+  ticks(y0, y1).forEach(v => s += `<line class="grid" x1="${ml}" x2="${ml + iw}" y1="${Y(v)}" y2="${Y(v)}"/><text class="axis" x="${ml - 6}" y="${Y(v) + 4}" text-anchor="end">${v}</text>`);
+  const ax = avg(pts.map(p => p.x)), ay = avg(pts.map(p => p.y));
+  s += `<line x1="${X(ax)}" x2="${X(ax)}" y1="${mt}" y2="${mt + ih}" style="stroke:var(--line-2)" stroke-dasharray="4 4"/><line x1="${ml}" x2="${ml + iw}" y1="${Y(ay)}" y2="${Y(ay)}" style="stroke:var(--line-2)" stroke-dasharray="4 4"/>`;
+  s += `<text class="q" x="${ml + iw - 4}" y="${mt + 12}" text-anchor="end" style="fill:var(--accent)">${esc(o.qGood)}</text><text class="q" x="${ml + 4}" y="${mt + ih - 6}">${esc(o.qBad)}</text>`;
+  s += `<text class="axt" x="${ml + iw / 2}" y="${H - 4}" text-anchor="middle">${esc(o.xl)}</text><text class="axt" transform="translate(12 ${mt + ih / 2}) rotate(-90)" text-anchor="middle">${esc(o.yl)}</text>`;
+  pts.forEach(p => {
+    const cx = X(p.x), cy = Y(p.y), right = cx < ml + iw - 70;
+    s += `<g class="pt" data-team="${esc(p.th)}"><title>${esc(p.title)}</title><circle cx="${cx}" cy="${cy}" r="6" style="fill:var(--accent)"/><text class="lab" x="${right ? cx + 9 : cx - 9}" y="${cy + 4}" text-anchor="${right ? 'start' : 'end'}" style="fill:var(--text)">${esc(p.label)}</text></g>`;
+  });
+  return s + '</svg>';
+}
+function radar(axes, sets){
+  const W = 380, H = 330, cx = W / 2, cy = H / 2 + 2, R = 108, n = axes.length;
+  const ang = i => -Math.PI / 2 + i * 2 * Math.PI / n;
+  const pt = (i, r) => [cx + Math.cos(ang(i)) * r, cy + Math.sin(ang(i)) * r];
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="เรดาร์เปรียบเทียบ" style="max-width:380px;margin:0 auto">`;
+  [.25, .5, .75, 1].forEach(f => s += `<polygon class="grid" fill="none" points="${axes.map((_, i) => pt(i, R * f).map(v => v.toFixed(1)).join(',')).join(' ')}"/>`);
+  axes.forEach((a, i) => {
+    const [x, y] = pt(i, R), [lx, ly] = pt(i, R + 16), c = Math.cos(ang(i)), sn = Math.sin(ang(i));
+    s += `<line class="grid" x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`;
+    s += `<text class="axt" x="${lx.toFixed(1)}" y="${(ly + (sn > .5 ? 10 : sn < -.5 ? -2 : 4)).toFixed(1)}" text-anchor="${Math.abs(c) < .3 ? 'middle' : c > 0 ? 'start' : 'end'}">${esc(a)}</text>`;
+  });
+  sets.forEach(st => {
+    const ps = st.vals.map((v, i) => pt(i, R * Math.max(.04, Math.min(1, v))));
+    s += `<polygon points="${ps.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ')}" style="fill:${st.color};stroke:${st.color}" fill-opacity=".16" stroke-width="2" stroke-linejoin="round"/>`;
+    ps.forEach(p => s += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" style="fill:${st.color}"/>`);
+  });
+  return s + '</svg>';
+}
+const pctRank = (vals, v, inv) => { if (!vals.length) return 0; let below = 0, eq = 0; vals.forEach(x => { if (x === v) eq++; else if (inv ? x > v : x < v) below++; }); return Math.round((below + eq / 2) / vals.length * 100); };
+
+/* ---------- match row ---------- */
+function matchRow(m, o = {}){
+  const hw = m.played && m.hs > m.as, aw = m.played && m.as > m.hs;
+  let sc;
+  if (m.played) sc = `<button class="sc" data-match="${m.i}" title="ดูรายงานการแข่งขัน" aria-label="รายงานการแข่งขัน ${esc(m.home)} ${m.hs}-${m.as} ${esc(m.away)}">${m.hs}–${m.as}</button>`;
+  else if (m.status === 'live') sc = `<div class="sc live" title="กำลังแข่ง">${esc(m.liveScore)}</div>`;
+  else if (m.status === 'cancel') sc = '<div class="sc up">ยกเลิก</div>';
+  else sc = `<div class="sc up">${esc(m.time || 'vs')}</div>`;
+  const meta = [o.noDate ? '' : m.date ? fmtDate(m.date, true) : '', o.round && m.round != null ? 'นัดที่ ' + m.round : '', o.noVenue ? '' : m.venue].filter(Boolean).join(' · ');
+  return `<div class="mrow"><div class="h${hw ? ' win' : ''}">${tl(m.home)}</div>${sc}<div class="a${aw ? ' win' : ''}">${tl(m.away)}</div>${meta ? `<div class="mmeta">${esc(meta)}</div>` : ''}</div>`;
+}
+
+/* ================= views ================= */
+function viewOverview(){
+  const L = leagueSummary(), R = S.d.maxRound;
+  const p = v => L.n ? Math.round(v / L.n * 100) : 0;
+  let html = pagehead('ภาพรวมลีก', R ? `${esc(S.data.meta.title || '')} · หลังจบนัดที่ ${R}` : 'ยังไม่เริ่มแข่ง');
+  html += `<div class="kpis">
+    <div class="kpi"><span class="lab">แข่งไปแล้ว</span><span class="val">${L.n}<small> / ${L.total} นัด</small></span><div class="meter"><i style="width:${PCT(L.n, L.total)}%;background:var(--accent)"></i></div></div>
+    <div class="kpi"><span class="lab">ประตูเฉลี่ยต่อนัด</span><span class="val">${f2(L.n ? L.goals / L.n : 0)}</span><span class="foot">รวม ${L.goals} ประตู</span></div>
+    <div class="kpi"><span class="lab">เหย้าชนะ · เสมอ · เยือนชนะ</span><span class="val">${p(L.hw)}<small>%</small> ${p(L.dr)}<small>%</small> ${p(L.aw)}<small>%</small></span>
+      <div class="meter"><i style="width:${p(L.hw)}%;background:var(--accent)"></i><i style="width:${p(L.dr)}%;background:var(--d)"></i><i style="width:${p(L.aw)}%;background:var(--ca)"></i></div></div>
+    <div class="kpi"><span class="lab">ยิงได้ทั้งสองฝั่ง (BTTS)</span><span class="val">${p(L.btts)}<small>%</small></span><span class="foot">${L.btts} จาก ${L.n} นัด</span></div>
+    <div class="kpi"><span class="lab">สกอร์รวมเกิน 2.5</span><span class="val">${p(L.over25)}<small>%</small></span><span class="foot">${L.over25} จาก ${L.n} นัด</span></div>
+    <div class="kpi"><span class="lab">ใบเหลืองต่อนัด</span><span class="val">${f2(L.n ? L.yc / L.n : 0)}</span><span class="foot">ใบแดงรวม ${L.rc} ใบ</span></div>
+  </div>`;
+  const legend = S.d.tables.all.map(r => { const i = S.race.indexOf(r.team.th);
+    return `<button class="lg${i >= 0 ? ' on' : ''}" data-race="${esc(r.team.th)}" title="${esc(r.team.th)}" style="${i >= 0 ? `color:var(--h${i + 1})` : ''}" aria-pressed="${i >= 0}"><i style="${i >= 0 ? `background:var(--h${i + 1})` : ''}"></i>${esc(shortName(r.team))}</button>`; }).join('');
+  const mini = `<div class="tw"><table class="dt"><thead><tr><th class="c">#</th><th class="l">สโมสร</th><th>P</th><th>GD</th><th>แต้ม</th></tr></thead><tbody>${
+    S.d.tables.all.map(r => `<tr><td class="c n rk">${r.pos}</td><td class="l">${tl(r.team.th)}</td><td class="n">${r.p}</td><td class="n">${sign(r.gd)}</td><td class="n strong">${r.pts}</td></tr>`).join('')}</tbody></table></div>`;
+  html += `<div class="cols">${panel('เส้นทางคะแนนสะสม', `<div class="chartwrap">${raceChart()}</div><div class="lgnd">${legend}</div>`, '<span class="note">แตะชื่อทีมเพื่อเลือกเส้นที่เน้น (สูงสุด 4 ทีม)</span>')}
+    ${panel('ตารางคะแนน', mini, '<a class="note" href="#table" data-tab="table">ดูตารางเต็ม →</a>')}</div>`;
+  const M = [...S.d.tm.values()].filter(m => m.P);
+  const cell = (k, res, fmt, unit) => res.item ? `<div><span class="k">${k}</span><div class="v">${tl(res.item.t.th)}<b>${fmt(res.v)}<small class="muted" style="font:500 11px var(--f-body)"> ${unit}</small></b></div>${res.ties ? `<span class="sub">เท่ากันอีก ${res.ties} ทีม</span>` : ''}</div>` : '';
+  const id = v => v, neg2 = v => f2(-v);
+  const ins = [
+    cell('เกมรุกดีที่สุด', maxBy(M, m => m.gfpg), f2, 'ประตู/นัด'),
+    cell('เกมรับดีที่สุด', maxBy(M, m => -m.gapg), neg2, 'เสีย/นัด'),
+    cell('ฟอร์มดีที่สุด 5 นัด', maxBy(M, m => m.f5pts), id, 'แต้ม'),
+    cell('ไม่แพ้ติดต่อกัน', maxBy(M, m => m.unbeaten), id, 'นัด'),
+    cell('ยังไม่ชนะติดต่อกัน', maxBy(M, m => m.winless), id, 'นัด'),
+    cell('แข็งแกร่งในบ้าน', maxBy(M, m => m.hppg), f2, 'แต้ม/นัด'),
+    cell('เก่งนอกบ้าน', maxBy(M, m => m.appg), f2, 'แต้ม/นัด'),
+    cell('ใบเหลืองมากที่สุด', maxBy(M, m => m.yc), id, 'ใบ'),
+  ].join('');
+  const big = L.big ? `<div class="pnote">ชนะขาดที่สุดฤดูกาลนี้: ${esc(L.big.home)} ${L.big.hs}–${L.big.as} ${esc(L.big.away)} (นัดที่ ${L.big.round ?? '-'}, ${fmtDate(L.big.date)})</div>` : '';
+  const lead = (title, k, unit) => {
+    const list = S.data.players.filter(p => p[k] > 0).sort((a, b) => b[k] - a[k] || a.min - b.min).slice(0, 5);
+    return `<div><h4>${title}</h4>${list.map((p, i) => `<div class="lrow"><span class="rk">${i + 1}</span><span style="min-width:0">${pn(p)}<span class="sub">${esc(p.team)}</span></span><span class="v">${p[k]}<small class="muted" style="font:400 11px var(--f-body)"> ${unit}</small></span></div>`).join('') || '<div class="pb muted small">ยังไม่มีข้อมูล</div>'}</div>`;
+  };
+  html += `<div class="cols even">${panel('ข้อสังเกตเชิงสถิติ', `<div class="ins">${ins}</div>${big}`)}
+    ${panel('ผู้นำสถิตินักเตะ', `<div class="leaders">${lead('ดาวซัลโว', 'goals', 'ประตู')}${lead('แอสซิสต์', 'assists', 'ครั้ง')}</div>`, '<a class="note" href="#players" data-tab="players">ดูนักเตะทั้งหมด →</a>')}</div>`;
+  const lastM = S.data.matches.filter(m => m.round === R).sort(byOrder);
+  const nextM = S.d.nextRound != null ? S.data.matches.filter(m => m.round === S.d.nextRound).sort(byOrder) : [];
+  html += `<div class="cols even">${R ? panel(`ผลนัดที่ ${R}`, lastM.map(m => matchRow(m, { noVenue: true })).join('')) : ''}
+    ${nextM.length ? panel(`โปรแกรมนัดที่ ${S.d.nextRound}`, nextM.map(m => matchRow(m, { noVenue: true })).join('')) : ''}</div>`;
+  return html;
+}
+function raceChart(){
+  const R = S.d.maxRound;
+  if (!R) return '<div class="pb muted">ยังไม่มีผลการแข่งขัน</div>';
+  const lines = [];
+  S.data.teams.forEach(t => { if (!S.race.includes(t.th)) lines.push({ pts: S.d.race.get(t.th), color: 'var(--grey-line)', w: 1.3, title: t.th }); });
+  S.race.forEach((th, i) => { const t = S.d.teamBy.get(th), pts = S.d.race.get(th); if (t && pts) lines.push({ pts, color: `var(--h${i + 1})`, w: 2.6, dots: true, label: `${shortName(t)} ${pts[R]}`, title: t.th }); });
+  return lineChart(lines, R, { aria: 'กราฟคะแนนสะสมรายนัดของทุกทีม' });
+}
+
+function viewTable(){
+  const mode = S.tableMode, isAll = mode === 'all', rows = S.d.tables[mode];
+  const move = r => { const t = r.team; if (!isAll || !t.prevRank || t.prevRank === t.rank) return '';
+    return t.prevRank > t.rank ? `<span class="mv up" title="ขึ้นจากอันดับ ${t.prevRank}">▲</span>` : `<span class="mv down" title="ลงจากอันดับ ${t.prevRank}">▼</span>`; };
+  const cols = [
+    { k:'pos', label:'#', c:true, asc:true, cls:'n rk', f: r => `${r.pos}${move(r)}` },
+    { k:'team', label:'สโมสร', l:true, stk:true, asc:true, v: r => r.team.th, f: r => tl(r.team.th) },
+    { k:'p', label:'P', title:'แข่ง' }, { k:'w', label:'W', title:'ชนะ' }, { k:'d', label:'D', title:'เสมอ' }, { k:'l', label:'L', title:'แพ้', asc:true },
+    { k:'gf', label:'GF', title:'ประตูได้' }, { k:'ga', label:'GA', title:'ประตูเสีย', asc:true }, { k:'gd', label:'GD', title:'ผลต่างประตู', f: (r, v) => sign(v) },
+    { k:'pts', label:'แต้ม', cls:'strong' },
+    { k:'ppg', label:'แต้ม/นัด', v: r => r.p ? r.pts / r.p : 0, f: (r, v) => f2(v) },
+    { k:'gfpg', label:'ได้/นัด', v: r => r.p ? r.gf / r.p : 0, f: (r, v) => f2(v) },
+    { k:'gapg', label:'เสีย/นัด', v: r => r.p ? r.ga / r.p : 0, f: (r, v) => f2(v), asc:true },
+  ];
+  if (isAll || mode === 'form') cols.push({ k:'form', label:'ฟอร์ม (เก่า → ล่าสุด)', c:true, nosort:true, f: r => formHtml(S.d.formOf.get(r.team.th) || []) });
+  const note = isAll ? 'อันดับและแต้มตามตารางทางการของไทยลีก · ▲▼ เทียบอันดับครั้งก่อน · แตะหัวคอลัมน์เพื่อเรียง'
+    : mode === 'form' ? 'คำนวณจาก 5 นัดหลังสุดของแต่ละทีม เรียงตามแต้ม ผลต่าง และประตูได้' : 'คำนวณจากผลการแข่งขันเฉพาะเกม' + (mode === 'home' ? 'ในบ้าน' : 'นอกบ้าน');
+  return pagehead('ตารางคะแนน', esc(S.data.meta.title || ''))
+    + panel(seg('tableMode', mode, [['all','ตารางรวม'],['home','ในบ้าน'],['away','นอกบ้าน'],['form','5 นัดล่าสุด']]),
+      dataTable('st-' + mode, cols, rows, { k:'pos', dir:1 }, { tie: (a, b) => a.pos - b.pos }), '', note);
+}
+
+function viewResults(){
+  const ms = S.data.matches;
+  if (!ms.length) return pagehead('โปรแกรมและผลการแข่งขัน') + emptyState('ยังไม่มีโปรแกรมการแข่งขัน');
+  const tools = seg('resMode', S.resMode, [['round','รายนัด'],['matrix','ตารางผลแบบเมทริกซ์']]);
+  const html = pagehead('โปรแกรมและผลการแข่งขัน', `แข่งแล้ว ${S.d.played.length} จาก ${ms.filter(m => m.status !== 'cancel').length} นัด`, tools);
+  if (S.resMode === 'matrix') return html + viewMatrix();
+  const rounds = S.d.rounds;
+  if (S.round == null || !rounds.includes(S.round)) S.round = S.d.maxRound || rounds[0];
+  const idx = rounds.indexOf(S.round), list = ms.filter(m => m.round === S.round).sort(byOrder), done = list.filter(m => m.played);
+  const g = done.reduce((a, m) => a + m.hs + m.as, 0);
+  const sum = done.length ? `${done.length} นัด · ${g} ประตู (${f2(g / done.length)} ต่อนัด) · เหย้าชนะ ${done.filter(m => m.hs > m.as).length} เสมอ ${done.filter(m => m.hs === m.as).length} เยือนชนะ ${done.filter(m => m.as > m.hs).length}` : 'นัดนี้ยังไม่ได้แข่ง';
+  const nav = `<div style="display:flex;gap:6px;align-items:center"><button class="btn" data-round="${rounds[idx - 1] ?? ''}" ${idx <= 0 ? 'disabled' : ''} aria-label="นัดก่อนหน้า">‹</button>
+    <select class="inp" id="roundSel" aria-label="เลือกนัด">${rounds.map(r => `<option value="${r}"${r === S.round ? ' selected' : ''}>นัดที่ ${r}</option>`).join('')}</select>
+    <button class="btn" data-round="${rounds[idx + 1] ?? ''}" ${idx >= rounds.length - 1 ? 'disabled' : ''} aria-label="นัดถัดไป">›</button></div>`;
+  let body = '', day = '';
+  list.forEach(m => { if (m.date !== day) { day = m.date; body += `<div class="dayhead">${fmtDate(m.date, true)}</div>`; } body += matchRow(m, { noDate: true }); });
+  return html + panel(`นัดที่ ${S.round}`, body, nav, sum);
+}
+function viewMatrix(){
+  const T = S.d.tables.all.map(r => r.team);
+  const key = new Map(); S.data.matches.forEach(m => key.set(m.home + '|' + m.away, m));
+  const head = T.map(t => `<th title="${esc(t.th)}">${esc(shortName(t))}</th>`).join('');
+  const rows = T.map(h => `<tr><th class="rowh">${tl(h.th, 18)}</th>${T.map(a => {
+    if (a.th === h.th) return '<td class="self"></td>';
+    const m = key.get(h.th + '|' + a.th);
+    if (!m) return '<td class="up">–</td>';
+    if (!m.played) return `<td class="up" title="${esc(fmtDate(m.date, true))}">${esc(fmtDate(m.date).replace(/ \d+$/, ''))}</td>`;
+    const r = m.hs > m.as ? 'W' : m.hs < m.as ? 'L' : 'D';
+    return `<td class="${r}" title="${esc(`${h.th} ${m.hs}-${m.as} ${a.th} · นัดที่ ${m.round}`)}" data-match="${m.i}" style="cursor:pointer">${m.hs}–${m.as}</td>`;
+  }).join('')}</tr>`).join('');
+  return panel('ตารางผลแบบเมทริกซ์', `<div class="tw"><table class="mx"><thead><tr><th class="rowh">เหย้า \\ เยือน</th>${head}</tr></thead><tbody>${rows}</tbody></table></div>`,
+    '<div class="legend-row"><span><i style="background:color-mix(in srgb,var(--w) 40%,var(--surface))"></i>เจ้าบ้านชนะ</span><span><i style="background:color-mix(in srgb,var(--d) 40%,var(--surface))"></i>เสมอ</span><span><i style="background:color-mix(in srgb,var(--l) 40%,var(--surface))"></i>ทีมเยือนชนะ</span></div>',
+    'แถว = ทีมเหย้า, คอลัมน์ = ทีมเยือน · ช่องที่เป็นวันที่ = ยังไม่แข่ง');
+}
+
+/* ---------- players explorer ---------- */
+const PRESETS = [
+  ['goals', 'ดาวซัลโว', { sort: 'goals' }], ['assists', 'แอสซิสต์', { sort: 'assists' }], ['ga', 'ประตู+แอสซิสต์', { sort: 'ga' }],
+  ['ga90', 'G+A ต่อ 90 นาที', { sort: 'ga90', min: 270 }], ['motm', 'แมนออฟเดอะแมตช์', { sort: 'motm' }],
+  ['cs', 'คลีนชีต', { sort: 'cs', pos: 'GK' }], ['min', 'เวลาลงสนาม', { sort: 'min' }], ['yc', 'ใบเหลือง', { sort: 'yc' }],
+];
+const PCOLS = () => [
+  { k:'rank', label:'#', c:true, nosort:true, cls:'n rk', f: (p, v, i) => i + 1 },
+  { k:'name', label:'นักเตะ', l:true, stk:true, asc:true, f: p => `${pn(p)}<span class="sub">${esc(p.team)}${p.no ? ' · #' + p.no : ''}${FOREIGN(p.country) ? ' · ' + esc(p.country) : ''}</span>` },
+  { k:'pos', label:'ตำแหน่ง', c:true, asc:true, v: p => POS_ORDER[posKey(p.pos)], f: posTag },
+  { k:'mp', label:'นัด', grp:'การลงสนาม' }, { k:'starts', label:'ตัวจริง', grp:'การลงสนาม' },
+  { k:'min', label:'นาที', grp:'การลงสนาม', f: (p, v) => fmtN(v) },
+  { k:'minPct', label:'% เวลาทีม', grp:'การลงสนาม', v: p => p.x.minPct, f: (p, v) => `${Math.round(v)}%<span class="mbar"><i style="width:${Math.min(100, v)}%"></i></span>` },
+  { k:'goals', label:'ประตู', grp:'ผลงาน' }, { k:'assists', label:'แอสซิสต์', grp:'ผลงาน' }, { k:'ga', label:'G+A', grp:'ผลงาน', title:'ประตู + แอสซิสต์' },
+  { k:'pen', label:'จุดโทษ', grp:'ผลงาน', title:'ยิงจุดโทษเข้า' },
+  { k:'g90', label:'ประตู', grp:'ต่อ 90 นาที', v: p => p.x.g90, f: (p, v) => f2(v) },
+  { k:'a90', label:'แอสซิสต์', grp:'ต่อ 90 นาที', v: p => p.x.a90, f: (p, v) => f2(v) },
+  { k:'ga90', label:'G+A', grp:'ต่อ 90 นาที', v: p => p.x.ga90, f: (p, v) => f2(v) },
+  { k:'motm', label:'MOTM', grp:'อื่นๆ', title:'แมนออฟเดอะแมตช์' }, { k:'cs', label:'คลีนชีต', grp:'อื่นๆ' },
+  { k:'yc', label:'เหลือง', grp:'อื่นๆ', title:'ใบเหลือง' }, { k:'rc', label:'แดง', grp:'อื่นๆ', title:'ใบแดง' },
+];
+function filteredPlayers(){
+  const f = S.pf, q = norm(f.q);
+  return S.data.players.filter(p => (!f.team || p.team === f.team) && (!f.pos || posKey(p.pos) === f.pos) && p.min >= f.min
+    && (!q || [p.name, p.full, p.shirt, p.team].some(x => norm(x).includes(q))));
+}
+function playerTable(rows){
+  return rows.length ? dataTable('players', PCOLS(), rows, { k:'goals', dir:-1 }, { tall:true, tie: (a, b) => a.min - b.min }) : '<div class="empty-state">ไม่พบนักเตะตามเงื่อนไข</div>';
+}
+function viewPlayers(){
+  const f = S.pf, rows = filteredPlayers();
+  const presets = PRESETS.map(([k, l]) => `<button class="chip${f.preset === k ? ' on' : ''}" data-preset="${k}">${l}</button>`).join('');
+  const filters = `<div class="filters">
+    <div class="fsearch">${ICON.search}<input class="inp" id="pfq" type="search" placeholder="ค้นชื่อนักเตะ" value="${esc(f.q)}" autocomplete="off" aria-label="ค้นชื่อนักเตะ"></div>
+    <label>ทีม <select class="inp" id="pft"><option value="">ทุกทีม</option>${S.d.tables.all.map(r => `<option value="${esc(r.team.th)}"${r.team.th === f.team ? ' selected' : ''}>${esc(r.team.th)}</option>`).join('')}</select></label>
+    ${seg('pos', f.pos, [['','ทุกตำแหน่ง'],['GK','GK'],['DF','DF'],['MF','MF'],['FW','FW']])}
+    <label>ลงเล่นอย่างน้อย <select class="inp" id="pfm">${[0, 90, 180, 270, 360, 450].map(v => `<option value="${v}"${v === f.min ? ' selected' : ''}>${v} นาที</option>`).join('')}</select></label>
+    <span class="count" id="pcount">${rows.length} คน</span>
+    <button class="btn" data-act="copy" title="คัดลอกตารางไปวางใน Excel หรือ Google Sheets">${ICON.copy}คัดลอกตาราง</button></div>`;
+  return pagehead('นักเตะ', `สถิติสะสมทั้งฤดูกาลของนักเตะ ${S.data.players.length} คน`)
+    + `<div class="chips" aria-label="มุมมองสำเร็จรูป">${presets}</div>`
+    + `<section class="panel">${filters}<div id="pwrap">${playerTable(rows)}</div>
+       <div class="pnote">ค่าต่อ 90 นาทีแสดงเฉพาะนักเตะที่ลงเล่นอย่างน้อย 90 นาที · % เวลาทีม = นาทีที่ลงเล่น ÷ (จำนวนนัดของทีม × 90) · ปุ่มคัดลอกตารางใช้วางใน Excel ได้ทันที</div></section>`;
+}
+function updatePlayerTable(){
+  const w = $('#pwrap'); if (!w) return;
+  const rows = filteredPlayers();
+  w.innerHTML = playerTable(rows);
+  $('#pcount').textContent = rows.length + ' คน';
+}
+function copyPlayers(){
+  const st = S.sorts.players || { k:'goals', dir:-1 };
+  const col = PCOLS().find(c => c.k === st.k && !c.nosort);
+  let rows = filteredPlayers();
+  if (col) { const g = p => col.v ? col.v(p) : p[col.k]; rows = rows.slice().sort((a, b) => { const x = g(a), y = g(b); if (x == null) return 1; if (y == null) return -1; return (typeof x === 'string' ? String(x).localeCompare(y, 'th') : x - y) * st.dir; }); }
+  const head = ['นักเตะ','ทีม','เบอร์','ตำแหน่ง','สัญชาติ','นัด','ตัวจริง','นาที','% เวลาทีม','ประตู','แอสซิสต์','G+A','จุดโทษ','ประตู/90','แอสซิสต์/90','G+A/90','MOTM','คลีนชีต','ใบเหลือง','ใบแดง'];
+  const r2 = v => v == null ? '' : String(Math.round(v * 100) / 100);
+  const lines = [head.join('\t')].concat(rows.map(p => [p.name, p.team, p.no, posKey(p.pos), p.country || 'Thailand', p.mp, p.starts, p.min, Math.round(p.x.minPct), p.goals, p.assists, p.ga, p.pen, r2(p.x.g90), r2(p.x.a90), r2(p.x.ga90), p.motm, p.cs, p.yc, p.rc].join('\t')));
+  const text = lines.join('\n'), done = () => toast(`คัดลอก ${rows.length} แถวแล้ว วางใน Excel ได้เลย`);
+  const fallback = () => { const ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (e) {} ta.remove(); ok ? done() : toast('คัดลอกไม่สำเร็จ ลองใหม่อีกครั้ง'); };
+  try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+}
+
+/* ---------- teams ---------- */
+function viewTeams(){
+  if (S.team && S.d.tm.has(S.team)) return viewTeam(S.d.tm.get(S.team));
+  const M = S.d.tables.all.map(r => S.d.tm.get(r.team.th));
+  const cols = [
+    { k:'pos', label:'#', c:true, asc:true, cls:'n rk', v: m => m.r.pos },
+    { k:'team', label:'สโมสร', l:true, stk:true, asc:true, v: m => m.t.th, f: m => tl(m.t.th) },
+    { k:'P', label:'P', title:'แข่ง' }, { k:'pts', label:'แต้ม', v: m => m.r.pts, cls:'strong' }, { k:'ppg', label:'แต้ม/นัด', f: (m, v) => f2(v) },
+    { k:'gf', label:'ได้', grp:'เกมรุก', v: m => m.r.gf }, { k:'gfpg', label:'ได้/นัด', grp:'เกมรุก', f: (m, v) => f2(v) },
+    { k:'fts', label:'ยิงไม่ได้', grp:'เกมรุก', asc:true, title:'จำนวนนัดที่ยิงไม่ได้' },
+    { k:'ga', label:'เสีย', grp:'เกมรับ', asc:true, v: m => m.r.ga }, { k:'gapg', label:'เสีย/นัด', grp:'เกมรับ', asc:true, f: (m, v) => f2(v) },
+    { k:'cs', label:'คลีนชีต', grp:'เกมรับ' }, { k:'csp', label:'คลีนชีต%', grp:'เกมรับ', v: m => PCT(m.cs, m.P), f: (m, v) => v + '%' },
+    { k:'hppg', label:'เหย้า', grp:'แต้มต่อนัด', f: (m, v) => f2(v), title:'แต้มต่อนัดในบ้าน' }, { k:'appg', label:'เยือน', grp:'แต้มต่อนัด', f: (m, v) => f2(v), title:'แต้มต่อนัดนอกบ้าน' },
+    { k:'f5pts', label:'แต้ม', grp:'5 นัดหลังสุด' }, { k:'f5', label:'ฟอร์ม', grp:'5 นัดหลังสุด', c:true, nosort:true, f: m => formHtml(S.d.formOf.get(m.t.th) || []) },
+    { k:'yc', label:'เหลือง', grp:'วินัย', asc:true }, { k:'rc', label:'แดง', grp:'วินัย', asc:true },
+    { k:'used', label:'ลงสนาม', grp:'ขุมกำลัง', title:'นักเตะที่ได้ลงสนาม' }, { k:'foreign', label:'ต่างชาติ', grp:'ขุมกำลัง', title:'นักเตะต่างชาติที่ได้ลงสนาม' },
+    { k:'scorers', label:'คนยิง', grp:'ขุมกำลัง', title:'จำนวนนักเตะที่ยิงประตูได้' },
+    { k:'fgp', label:'% ประตูต่างชาติ', grp:'ขุมกำลัง', v: m => PCT(m.foreignGoals, m.goalsPl), f: (m, v) => v + '%' },
+  ];
+  const pts = M.filter(m => m.P).map(m => ({ x: m.gfpg, y: m.gapg, th: m.t.th, label: shortName(m.t), title: `${m.t.th}: ได้ ${f2(m.gfpg)} เสีย ${f2(m.gapg)} ต่อนัด` }));
+  return pagehead('ทีม', 'สถิติเชิงลึกรายทีม แตะชื่อทีมเพื่อดูรายละเอียด')
+    + (pts.length ? panel('เกมรุก vs เกมรับ', `<div class="chartwrap">${scatter(pts, { aria:'กราฟเกมรุกเทียบเกมรับ', xl:'ประตูได้ต่อนัด →', yl:'↑ ประตูเสียต่อนัด (น้อย = ดี)', qGood:'ยิงมาก · เสียน้อย', qBad:'ยิงน้อย · เสียมาก' })}</div>`, '<span class="note">เส้นประ = ค่าเฉลี่ยของลีก · แตะจุดเพื่อดูทีม</span>') : '')
+    + panel('สถิติทีมทั้งลีก', dataTable('teams', cols, M, { k:'pos', dir:1 }), '', 'แตะหัวคอลัมน์เพื่อเรียง · คอลัมน์ที่ค่าน้อยดีกว่า (เช่น เสีย และใบเหลือง) จะเรียงจากน้อยไปมากเมื่อแตะครั้งแรก');
+}
+function viewTeam(m){
+  const t = m.t, r = m.r, R = S.d.maxRound;
+  const n = m.next, nextTxt = n ? `${n.home === t.th ? 'เหย้า' : 'เยือน'} พบ ${esc(n.home === t.th ? n.away : n.home)} · ${fmtDate(n.date, true)}${n.time ? ' ' + esc(n.time) : ''}` : 'ไม่มี';
+  let html = `<button class="back" data-team="">‹ ทุกทีม</button>
+  <section class="panel"><div class="thead">${crest(t, 56)}<div style="min-width:0;flex:1 1 260px"><h2>${esc(t.th)}</h2><div class="muted small">${esc(t.en || '')}</div>
+    <div class="tags"><span class="tag">อันดับ <b>${r.pos}</b></span><span class="tag"><b>${r.pts}</b> แต้ม</span><span class="tag">ชนะ-เสมอ-แพ้ <b>${r.w}-${r.d}-${r.l}</b></span><span class="tag">นัดถัดไป: ${nextTxt}</span></div></div>
+    <div><div class="small muted" style="margin-bottom:4px">ฟอร์ม 5 นัด (เก่า → ล่าสุด)</div>${formHtml(S.d.formOf.get(t.th) || [], true)}</div></div></section>`;
+  html += `<div class="kpis">
+    <div class="kpi"><span class="lab">แต้มต่อนัด</span><span class="val">${f2(m.ppg)}</span></div>
+    <div class="kpi"><span class="lab">ประตูได้ / เสีย ต่อนัด</span><span class="val">${f2(m.gfpg)}<small> / ${f2(m.gapg)}</small></span></div>
+    <div class="kpi"><span class="lab">คลีนชีต</span><span class="val">${m.cs}<small> นัด (${PCT(m.cs, m.P)}%)</small></span></div>
+    <div class="kpi"><span class="lab">ในบ้าน</span><span class="val">${m.home.w}-${m.home.d}-${m.home.l}</span><span class="foot">${f2(m.hppg)} แต้ม/นัด · ได้ ${m.home.gf} เสีย ${m.home.ga}</span></div>
+    <div class="kpi"><span class="lab">นอกบ้าน</span><span class="val">${m.away.w}-${m.away.d}-${m.away.l}</span><span class="foot">${f2(m.appg)} แต้ม/นัด · ได้ ${m.away.gf} เสีย ${m.away.ga}</span></div>
+    <div class="kpi"><span class="lab">สตรีคปัจจุบัน</span><span class="val">${m.unbeaten ? m.unbeaten + '<small> นัดไม่แพ้</small>' : m.winless + '<small> นัดไม่ชนะ</small>'}</span></div>
+  </div>`;
+  if (R) {
+    const leader = S.d.tables.all[0].team, lines = [];
+    const avgLine = Array.from({ length: R + 1 }, (_, i) => +(avg(S.data.teams.map(x => S.d.race.get(x.th)[i]))).toFixed(1));
+    lines.push({ pts: avgLine, color: 'var(--faint)', w: 1.5, dash: true, label: 'เฉลี่ยลีก', title: 'ค่าเฉลี่ยของลีก' });
+    if (leader.th !== t.th) lines.push({ pts: S.d.race.get(leader.th), color: 'var(--h2)', w: 2, label: shortName(leader) + ' (จ่าฝูง)', title: leader.th });
+    lines.push({ pts: S.d.race.get(t.th), color: 'var(--h1)', w: 2.8, dots: true, label: shortName(t), title: t.th });
+    html += `<div class="cols even">${panel('คะแนนสะสมเทียบลีก', `<div class="chartwrap">${lineChart(lines, R, { aria:'คะแนนสะสมของทีมเทียบจ่าฝูงและค่าเฉลี่ย', mr: 104 })}</div>`)}
+      ${panel('ประตูได้และเสียรายนัด', `<div class="chartwrap">${goalsChart(m)}</div>`, '<div class="legend-row"><span><i style="background:var(--accent)"></i>ได้</span><span><i style="background:var(--l)"></i>เสีย</span></div>')}</div>`;
+  }
+  const ps = m.ps;
+  if (ps.length) {
+    const goals = Math.max(1, m.r.gf);
+    const scorers = ps.filter(p => p.goals > 0).sort((a, b) => b.goals - a.goals);
+    const shareHtml = scorers.map(p => `<div class="share"><span style="min-width:0">${pn(p)}</span><span class="n" style="text-align:right">${p.goals}</span><span class="n muted" style="text-align:right">${PCT(p.goals, goals)}%</span><div class="bar"><i style="width:${PCT(p.goals, goals)}%"></i></div></div>`).join('') || '<div class="pb muted">ยังไม่มีผู้ทำประตู</div>';
+    const cols = PCOLS().filter(c => !['rank', 'pen', 'g90', 'a90'].includes(c.k)).map(c => c.k === 'name' ? Object.assign({}, c, { f: p => `${pn(p)}<span class="sub">${p.no ? '#' + p.no : ''}${FOREIGN(p.country) ? ' · ' + esc(p.country) : ''}</span>` }) : c);
+    html += panel('ขุมกำลังและการใช้งาน', dataTable('squad', cols, ps, { k:'min', dir:-1 }, { tie: (a, b) => POS_ORDER[posKey(a.pos)] - POS_ORDER[posKey(b.pos)] }), `<span class="note">ลงสนาม ${m.used} คน จาก ${ps.length} คน</span>`);
+    var shareP = panel('ส่วนแบ่งการทำประตู', shareHtml, '', `${m.scorers} คนยิงประตูได้ · ประตูจากนักเตะต่างชาติ ${PCT(m.foreignGoals, m.goalsPl)}%${m.r.gf > m.goalsPl ? ` · ได้จากคู่แข่งทำเข้าประตูตัวเอง ${m.r.gf - m.goalsPl} ลูก` : ''}`);
+  }
+  const ms = S.data.matches.filter(x => x.home === t.th || x.away === t.th).sort(byOrder);
+  const fx = ms.length ? panel('โปรแกรมและผลการแข่งขัน', ms.map(x => matchRow(x, { round: true })).join('')) : '';
+  html += `<div class="cols even">${typeof shareP === 'string' ? shareP : ''}${fx}</div>`;
+  return html;
+}
+
+/* ---------- compare ---------- */
+function vbar(label, a, b, o = {}){
+  const show = v => (o.fmt ? o.fmt(v) : fmtN(v)) + (o.unit ? ' ' + o.unit : '');
+  let wa, wb, sa = '', sb = '';
+  if (o.mode === 'pct') { wa = Math.max(0, Math.min(100, a)); wb = Math.max(0, Math.min(100, b)); }
+  else if (o.mode === 'scale') { const mx = Math.max(Math.abs(a), Math.abs(b)) || 1; wa = Math.abs(a) / mx * 100; wb = Math.abs(b) / mx * 100; }
+  else { const tot = a + b; wa = tot ? a / tot * 100 : 0; wb = tot ? b / tot * 100 : 0; if (tot) { sa = ` (${Math.round(wa)}%)`; sb = ` (${Math.round(wb)}%)`; } }
+  const cmp = o.neutral || a === b ? 0 : ((a > b) !== !!o.lower ? -1 : 1);
+  return `<div class="vrow"><div class="vs-a${cmp < 0 ? ' win' : ''}"><span class="vv">${show(a)}${sa}</span><span class="vb"><i style="width:${wa.toFixed(1)}%"></i></span></div>
+    <div class="vl">${label}${o.lower ? '<span class="vhint">น้อยดีกว่า</span>' : ''}</div>
+    <div class="vs-b${cmp > 0 ? ' win' : ''}"><span class="vv">${show(b)}${sb}</span><span class="vb"><i style="width:${wb.toFixed(1)}%"></i></span></div></div>`;
+}
+const vtext = (label, a, b) => `<div class="vrow txt"><div class="vs-a"><span class="vt">${a}</span></div><div class="vl">${label}</div><div class="vs-b"><span class="vt">${b}</span></div></div>`;
+const vsec = (title, rows) => `<div class="vhead">${title}</div><div class="vgrid">${rows.filter(Boolean).join('')}</div>`;
+const wdl = r => `${r.w}-${r.d}-${r.l}`;
+const TEAM_AXES = [['แต้ม/นัด', m => m.ppg], ['ยิง/นัด', m => m.gfpg], ['เสีย/นัด', m => m.gapg, true], ['คลีนชีต%', m => m.P ? m.cs / m.P : 0],
+  ['ฟอร์ม 5 นัด', m => m.f5pts], ['เหย้า', m => m.hppg], ['เยือน', m => m.appg], ['วินัย', m => m.P ? m.yc / m.P : 0, true]];
+function teamSide(m, cls){
+  const n = m.next;
+  return `<div class="tside ${cls}"><h3>${esc(m.t.th)}</h3><div class="muted small">อันดับที่ ${m.r.pos} · ${m.r.pts} แต้ม · แข่ง ${m.P} นัด</div>
+    <div class="formrow">${formHtml(S.d.formOf.get(m.t.th) || [], true)}</div>
+    <div class="ln"><b>5 นัดหลังสุด:</b> ${m.f5pts} แต้ม · ได้/เสีย ${m.f5gf}/${m.f5ga} (${sign(m.f5gf - m.f5ga)})</div>
+    <div class="ln"><b>ในบ้าน / นอกบ้าน:</b> ${wdl(m.home)} / ${wdl(m.away)}</div>
+    <div class="ln"><b>สตรีค:</b> ${m.unbeaten ? `ไม่แพ้ ${m.unbeaten} นัด` : `ไม่ชนะ ${m.winless} นัด`}</div>
+    <div class="ln"><b>นัดถัดไป:</b> ${n ? `${n.home === m.t.th ? 'เหย้า' : 'เยือน'} พบ ${esc(n.home === m.t.th ? n.away : n.home)} · ${fmtDate(n.date, true)}` : '-'}</div></div>`;
+}
+const topP = (m, k) => { const p = m.ps.filter(p => p[k] > 0).sort((x, y) => y[k] - x[k] || x.min - y.min)[0]; return p ? `${pn(p)}<b class="n">${fmtN(p[k])}</b>` : '<span class="dim">–</span>'; };
+function compareTeams(A, B){
+  const all = [...S.d.tm.values()].filter(m => m.P);
+  const norm01 = m => TEAM_AXES.map(([, g, inv]) => { const vs = all.map(g), mn = Math.min(...vs), mx = Math.max(...vs); const v = mx === mn ? .5 : (g(m) - mn) / (mx - mn); return inv ? 1 - v : v; });
+  let html = `<div class="cmp-top">${teamSide(A, 'a')}<div class="radarbox">${radar(TEAM_AXES.map(a => a[0]), [{ vals: norm01(A), color:'var(--ca)' }, { vals: norm01(B), color:'var(--cb)' }])}<div class="cap">สเกลเทียบ ${all.length} ทีมในโซน · ขอบนอก = ดีที่สุดในลีก</div></div>${teamSide(B, 'b')}</div>`;
+  const a = A.r, b = B.r;
+  html += vsec('ฟอร์ม 5 นัดล่าสุด', [
+    vbar('แต้ม', A.f5pts, B.f5pts, { unit:'แต้ม' }), vbar('ยิงได้', A.f5gf, B.f5gf, { unit:'ลูก' }), vbar('เสียประตู', A.f5ga, B.f5ga, { unit:'ลูก', lower:true }),
+  ]);
+  html += vsec('สถิติทั้งฤดูกาล', [
+    vbar('คะแนนรวม', a.pts, b.pts, { unit:'แต้ม' }), vbar('แต้มต่อนัด', A.ppg, B.ppg, { mode:'scale', fmt:f2 }),
+    vbar('ชนะ', a.w, b.w, { unit:'นัด' }), vbar('เสมอ', a.d, b.d, { unit:'นัด', neutral:true }), vbar('แพ้', a.l, b.l, { unit:'นัด', lower:true }),
+    vbar('ประตูได้', a.gf, b.gf, { unit:'ลูก' }), vbar('ประตูเสีย', a.ga, b.ga, { unit:'ลูก', lower:true }),
+    vbar('ผลต่างประตู', a.gd, b.gd, { mode:'scale', fmt: sign }),
+    vbar('ยิงเฉลี่ยต่อนัด', A.gfpg, B.gfpg, { mode:'scale', fmt:f2 }), vbar('เสียเฉลี่ยต่อนัด', A.gapg, B.gapg, { mode:'scale', fmt:f2, lower:true }),
+    vbar('คลีนชีต', A.cs, B.cs, { unit:'นัด' }), vbar('ยิงไม่ได้เลย', A.fts, B.fts, { unit:'นัด', lower:true }),
+  ]);
+  html += vsec('ในบ้าน / นอกบ้าน', [
+    vtext('ในบ้าน ชนะ-เสมอ-แพ้', wdl(A.home), wdl(B.home)), vbar('แต้มต่อนัดในบ้าน', A.hppg, B.hppg, { mode:'scale', fmt:f2 }),
+    vbar('ผลต่างประตูในบ้าน', A.home.gd, B.home.gd, { mode:'scale', fmt: sign }),
+    vtext('นอกบ้าน ชนะ-เสมอ-แพ้', wdl(A.away), wdl(B.away)), vbar('แต้มต่อนัดนอกบ้าน', A.appg, B.appg, { mode:'scale', fmt:f2 }),
+    vbar('ผลต่างประตูนอกบ้าน', A.away.gd, B.away.gd, { mode:'scale', fmt: sign }),
+  ]);
+  html += vsec('ขุมกำลังและวินัย', [
+    vbar('นักเตะที่ได้ลงสนาม', A.used, B.used, { unit:'คน', neutral:true }), vbar('นักเตะต่างชาติที่ลงสนาม', A.foreign, B.foreign, { unit:'คน', neutral:true }),
+    vbar('คนที่ยิงประตูได้', A.scorers, B.scorers, { unit:'คน' }), vbar('ใบเหลือง', A.yc, B.yc, { unit:'ใบ', lower:true }), vbar('ใบแดง', A.rc, B.rc, { unit:'ใบ', lower:true }),
+  ]);
+  html += vsec('ผู้เล่นตัวเด่น', [
+    vtext('ดาวซัลโว', topP(A, 'goals'), topP(B, 'goals')), vtext('แอสซิสต์', topP(A, 'assists'), topP(B, 'assists')),
+    vtext('แมนออฟเดอะแมตช์', topP(A, 'motm'), topP(B, 'motm')), vtext('ลงเล่นมากสุด (นาที)', topP(A, 'min'), topP(B, 'min')),
+  ]);
+  const meet = S.data.matches.filter(m => (m.home === A.t.th && m.away === B.t.th) || (m.home === B.t.th && m.away === A.t.th)).sort(byOrder);
+  const done = meet.filter(m => m.played);
+  const aw = done.filter(m => (m.home === A.t.th ? m.hs - m.as : m.as - m.hs) > 0).length, bw = done.filter(m => (m.home === B.t.th ? m.hs - m.as : m.as - m.hs) > 0).length;
+  html += `<div class="vhead">ผลการพบกันฤดูกาลนี้</div>${done.length ? `<div class="vgrid">${vbar('ชนะกัน', aw, bw, { unit:'นัด' })}${vtext('เสมอ', '', done.length - aw - bw + ' นัด')}</div>` : ''}`;
+  html += meet.length ? meet.map(m => matchRow(m, { round: true })).join('') : '<div class="pb muted">ไม่มีโปรแกรมพบกันในฤดูกาลนี้</div>';
+  return html;
+}
+const P_AXES = [['ประตู/90', p => p.x.g90 ?? 0], ['แอสซิสต์/90', p => p.x.a90 ?? 0], ['เวลาเล่น%', p => p.x.minPct], ['ตัวจริง%', p => p.x.startPct], ['MOTM/นัด', p => p.x.motmRate], ['วินัย', p => p.x.yc90 ?? 0, true]];
+const GK_AXES = [['คลีนชีต/นัด', p => p.x.csRate], ['เสีย/90', p => p.x.con90 ?? 0, true], ['เวลาเล่น%', p => p.x.minPct], ['ตัวจริง%', p => p.x.startPct], ['MOTM/นัด', p => p.x.motmRate], ['วินัย', p => p.x.yc90 ?? 0, true]];
+function playerSide(p, cls){
+  return `<div class="tside ${cls}"><h3>${esc(p.name)}</h3><div class="muted small">${esc(p.team)} · ${esc(posLabel(p.pos))}${p.no ? ' · #' + p.no : ''}${p.country ? ' · ' + esc(p.country) : ''}</div>
+    <div class="ln"><b>ลงเล่น:</b> ${p.mp} นัด (ตัวจริง ${p.starts}) · ${fmtN(p.min)} นาที · ${Math.round(p.x.minPct)}% ของเวลาทีม</div>
+    <div class="ln"><b>ผลงาน:</b> ${p.goals} ประตู · ${p.assists} แอสซิสต์${isGK(p) ? ` · คลีนชีต ${p.cs}` : ''}</div>
+    <div class="ln"><b>รางวัลและวินัย:</b> MOTM ${p.motm} · ใบเหลือง ${p.yc} · ใบแดง ${p.rc}</div></div>`;
+}
+function comparePlayers(A, B){
+  const gk = isGK(A) && isGK(B), axes = gk ? GK_AXES : P_AXES;
+  const pool = S.data.players.filter(p => p.min >= 180 && isGK(p) === gk);
+  const vals = p => axes.map(([, g, inv]) => pctRank(pool.map(g), g(p), inv) / 100);
+  const per = v => v == null ? 0 : v;
+  let html = `<div class="cmp-top">${playerSide(A, 'a')}<div class="radarbox">${radar(axes.map(a => a[0]), [{ vals: vals(A), color:'var(--ca)' }, { vals: vals(B), color:'var(--cb)' }])}<div class="cap">เปอร์เซ็นไทล์เทียบ${gk ? 'ผู้รักษาประตู' : 'นักเตะ (ไม่รวมผู้รักษาประตู)'}ที่ลงเล่นอย่างน้อย 180 นาที (${pool.length} คน)</div></div>${playerSide(B, 'b')}</div>`;
+  html += vsec('การลงสนาม', [
+    vbar('นัดที่ลงเล่น', A.mp, B.mp, { unit:'นัด' }), vbar('ตัวจริง', A.starts, B.starts, { unit:'นัด' }), vbar('นาทีลงเล่น', A.min, B.min, { unit:'นาที' }),
+    vbar('% เวลาเล่นของทีม', Math.round(A.x.minPct), Math.round(B.x.minPct), { mode:'pct', fmt: v => v + '%' }),
+    vbar('เปลี่ยนตัวเข้า', A.subIn, B.subIn, { unit:'ครั้ง', neutral:true }), vbar('ถูกเปลี่ยนออก', A.subOut, B.subOut, { unit:'ครั้ง', neutral:true }),
+  ]);
+  html += vsec('เกมรุก', [
+    vbar('ประตู', A.goals, B.goals, { unit:'ลูก' }), vbar('แอสซิสต์', A.assists, B.assists, { unit:'ครั้ง' }), vbar('ประตู + แอสซิสต์', A.ga, B.ga),
+    vbar('ประตูต่อ 90 นาที', per(A.x.g90), per(B.x.g90), { mode:'scale', fmt:f2 }), vbar('G+A ต่อ 90 นาที', per(A.x.ga90), per(B.x.ga90), { mode:'scale', fmt:f2 }),
+    vbar('ยิงจุดโทษเข้า', A.pen, B.pen, { unit:'ลูก' }), (A.penMiss || B.penMiss) && vbar('ยิงจุดโทษพลาด', A.penMiss, B.penMiss, { unit:'ลูก', lower:true }),
+  ]);
+  if (isGK(A) || isGK(B)) html += vsec('ผู้รักษาประตู', [
+    vbar('คลีนชีต', A.cs, B.cs, { unit:'นัด' }), vbar('เสียประตู', A.conceded, B.conceded, { unit:'ลูก', lower:true }),
+    vbar('เสียต่อ 90 นาที', per(A.x.con90), per(B.x.con90), { mode:'scale', fmt:f2, lower:true }),
+  ]);
+  html += vsec('รางวัลและวินัย', [
+    vbar('แมนออฟเดอะแมตช์', A.motm, B.motm, { unit:'ครั้ง' }), vbar('ใบเหลือง', A.yc, B.yc, { unit:'ใบ', lower:true }), vbar('ใบแดง', A.rc, B.rc, { unit:'ใบ', lower:true }),
+  ]);
+  return html + '<div class="pnote">ค่าต่อ 90 นาทีของนักเตะที่ลงเล่นไม่ถึง 90 นาทีนับเป็น 0</div>';
+}
+function viewCompare(){
+  const isP = S.cmpMode === 'players';
+  if (!S.cmp[0] && !S.cmp[1]) {
+    if (isP) { const top = S.data.players.filter(p => p.goals > 0).sort((a, b) => b.goals - a.goals || a.min - b.min).slice(0, 2); if (top.length === 2) S.cmp = top.map(p => String(p.id)); }
+    else if (S.d.tables.all.length > 1) S.cmp = [S.d.tables.all[0].team.th, S.d.tables.all[1].team.th];
+  }
+  const opts = sel => isP
+    ? '<option value="">เลือกนักเตะ</option>' + S.d.tables.all.map(r => {
+        const ps = (S.d.playersBy.get(r.team.th) || []).slice().sort((a, b) => (a.no || 999) - (b.no || 999));
+        return ps.length ? `<optgroup label="${esc(r.team.th)}">${ps.map(p => `<option value="${p.id}"${String(p.id) === sel ? ' selected' : ''}>${p.no ? p.no + '. ' : ''}${esc(p.name)} (${posKey(p.pos) || '-'})</option>`).join('')}</optgroup>` : '';
+      }).join('')
+    : '<option value="">เลือกสโมสร</option>' + S.d.tables.all.map(r => `<option value="${esc(r.team.th)}"${r.team.th === sel ? ' selected' : ''}>${r.pos}. ${esc(r.team.th)}</option>`).join('');
+  const who = isP ? 'นักเตะ' : 'สโมสร';
+  let html = pagehead('เปรียบเทียบ', isP ? 'เทียบสถิติรายบุคคลและเปอร์เซ็นไทล์' : 'เทียบฟอร์ม สถิติ และผลการพบกันของสองทีม', seg('cmpMode', S.cmpMode, [['teams','สโมสร'],['players','นักเตะ']]));
+  html += `<section class="panel"><div class="cmp-sel">
+    <label class="csel a"><span>${who}ที่ 1 (น้ำเงิน)</span><select class="inp" id="cmpA" data-cmp="0">${opts(S.cmp[0])}</select></label>
+    <span class="vs">VS</span>
+    <label class="csel b"><span>${who}ที่ 2 (ทอง)</span><select class="inp" id="cmpB" data-cmp="1">${opts(S.cmp[1])}</select></label></div>`;
+  const pick = i => isP ? S.data.players.find(p => String(p.id) === S.cmp[i]) : S.d.tm.get(S.cmp[i]);
+  const A = pick(0), B = pick(1);
+  if (!A || !B) return html + `<div class="empty-state">เลือก${who}ให้ครบทั้งสองฝั่ง</div></section>`;
+  return html + (isP ? comparePlayers(A, B) : compareTeams(A, B)) + '</section>';
+}
+
+/* ---------- player modal ---------- */
+function openPlayer(id){
+  const p = S.data.players.find(x => x.id === +id);
+  if (!p) return;
+  const t = S.d.teamBy.get(p.team) || { th: p.team }, gk = isGK(p);
+  const k = (v, l) => `<div><b>${v}</b><span>${l}</span></div>`;
+  const pool = S.data.players.filter(q => q.min >= 180 && posKey(q.pos) === posKey(p.pos));
+  const pctFmt = v => Math.round(v) + '%';
+  const metrics = gk
+    ? [['คลีนชีตต่อนัด', q => q.x.csRate, false, f2], ['เสียประตูต่อ 90 นาที', q => q.x.con90 ?? 0, true, f2], ['% เวลาเล่นของทีม', q => q.x.minPct, false, pctFmt], ['MOTM ต่อนัด', q => q.x.motmRate, false, f2], ['ใบเหลืองต่อ 90 นาที', q => q.x.yc90 ?? 0, true, f2]]
+    : [['ประตูต่อ 90 นาที', q => q.x.g90 ?? 0, false, f2], ['แอสซิสต์ต่อ 90 นาที', q => q.x.a90 ?? 0, false, f2], ['G+A ต่อ 90 นาที', q => q.x.ga90 ?? 0, false, f2], ['% เวลาเล่นของทีม', q => q.x.minPct, false, pctFmt], ['MOTM ต่อนัด', q => q.x.motmRate, false, f2], ['ใบเหลืองต่อ 90 นาที', q => q.x.yc90 ?? 0, true, f2]];
+  let pctl;
+  if (!posKey(p.pos)) pctl = '<p class="muted small" style="margin:0">ไม่มีข้อมูลตำแหน่ง จึงคำนวณเปอร์เซ็นไทล์ไม่ได้</p>';
+  else if (p.min < 180) pctl = `<p class="muted small" style="margin:0">ลงเล่น ${p.min} นาที ต้องลงเล่นอย่างน้อย 180 นาทีจึงคำนวณเปอร์เซ็นไทล์</p>`;
+  else pctl = metrics.map(([l, g, inv, fmt]) => { const v = g(p), pr = pctRank(pool.map(g), v, inv), c = pr >= 70 ? 'var(--q-hi)' : pr >= 40 ? 'var(--q-mid)' : 'var(--q-lo)';
+    return `<div class="prow"><span>${l}</span><span class="val">${fmt(v)}</span><span class="pv" style="color:${c}">${pr}</span><div class="bar"><i style="width:${Math.max(3, pr)}%;background:${c}"></i></div></div>`; }).join('');
+  $('#pm').classList.remove('wide'); delete $('#pm').dataset.match;
+  $('#pm').innerHTML = `<div class="pm-h">${p.photo ? `<img class="photo" src="${esc(p.photo)}" alt="" onerror="this.remove()">` : ''}
+      <div style="min-width:0;padding-right:36px"><button class="tl" data-team="${esc(p.team)}">${crest(t, 18)}<span class="nm">${esc(p.team)}</span></button>
+      <h3>${esc(p.name)}</h3><div class="muted small">${[p.no ? '#' + p.no : '', posLabel(p.pos), p.country || '', p.age ? p.age + ' ปี' : ''].filter(Boolean).map(esc).join(' · ')}</div></div>
+      <button class="iconbtn x" data-act="close" aria-label="ปิด">${ICON.close}</button></div>
+    <div class="pm-grid">${k(p.mp, 'นัดที่ลงเล่น')}${k(p.starts, 'ตัวจริง')}${k(fmtN(p.min), 'นาที')}${k(Math.round(p.x.minPct) + '%', '% เวลาของทีม')}
+      ${gk ? k(p.cs, 'คลีนชีต') + k(p.conceded, 'เสียประตู') : k(p.goals, 'ประตู') + k(p.assists, 'แอสซิสต์')}${k(p.motm, 'แมนออฟเดอะแมตช์')}${k(`${p.yc}/${p.rc}`, 'ใบเหลือง/แดง')}</div>
+    <div class="pctl"><h4>เปอร์เซ็นไทล์เทียบ${esc(posLabel(p.pos))}ในโซน</h4><div class="cap">เทียบกับ${esc(posLabel(p.pos))}ที่ลงเล่นอย่างน้อย 180 นาที (${pool.length} คน) · 100 = ดีที่สุด</div>${pctl}</div>${gameLogHtml(p)}`;
+  if (!$('#pm').open) $('#pm').showModal();
+  $('#pm').scrollTop = 0;
+}
+
+/* ---------- match report ---------- */
+const BALL = '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.6l2.9 2.1-1.1 3.4H6.2L5.1 6.7z" fill="currentColor"/></svg>';
+const EV_LABEL = { G: 'ประตู', Y: 'ใบเหลือง', R: 'ใบแดง', I: 'เปลี่ยนตัวเข้า', O: 'เปลี่ยนตัวออก' };
+const evIcon = t => t === 'G' ? `<span class="ei G" title="ประตู">${BALL}</span>` : t === 'Y' || t === 'R' ? `<span class="ei ${t}" title="${EV_LABEL[t]}"><i></i></span>`
+  : t === 'I' ? '<span class="ei I" title="เปลี่ยนตัวเข้า">↑</span>' : t === 'O' ? '<span class="ei O" title="เปลี่ยนตัวออก">↓</span>' : `<span class="ei" title="${esc(t)}">•</span>`;
+const repCache = new Map();
+let pdfjsP = null;
+async function fetchReport(m){
+  if (m.rep) return m.rep;
+  if (SNAPSHOT || !m.id) return null;
+  if (repCache.has(m.id)) return repCache.get(m.id);
+  try { const c = localStorage.getItem('tlrep:v1:' + m.id); if (c) { const r = decodeReport(c).rep; if (r) { repCache.set(m.id, r); return r; } } } catch (e) {}
+  if (!pdfjsP) pdfjsP = import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs').then(lib => { lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs'; return lib; });
+  const lib = await pdfjsP;
+  const { pdf_url } = await api(`exports-competition-match/?match_id=${m.id}&type=match_summary_public&is_thai_language=true&tournament=${S.data.meta.tid}`);
+  const r = await tlParseReport(lib, await (await fetch(pdf_url)).arrayBuffer());
+  r.ev.forEach(e => { if (e.no == null) e.no = 0; });
+  repCache.set(m.id, r);
+  try { localStorage.setItem('tlrep:v1:' + m.id, [m.id, m.att ?? '', r.ref, r.h.s.join('.') + '/' + r.h.b.join('.'), r.a.s.join('.') + '/' + r.a.b.join('.'), r.ev.map(e => [e.min, e.t, e.side, e.no].join(',')).join('!')].join('^')); } catch (e) {}
+  return r;
+}
+function tlClassify(o){
+  let px;
+  if (o.bitmap) { const c = new OffscreenCanvas(o.width, o.height), x = c.getContext('2d'); x.drawImage(o.bitmap, 0, 0); px = x.getImageData(0, 0, o.width, o.height).data; }
+  else if (o.data) px = o.data; else return 'U';
+  const step = o.data && o.data.length === o.width * o.height * 3 ? 3 : 4; let r = 0, g = 0, b = 0, n = 0, t = 0;
+  for (let k = 0; k + 2 < px.length; k += step) { t++; const a = step === 4 ? px[k + 3] : 255; if (a > 128 && !(px[k] > 230 && px[k + 1] > 230 && px[k + 2] > 230)) { r += px[k]; g += px[k + 1]; b += px[k + 2]; n++; } }
+  if (!n) return 'U';
+  r /= n; g /= n; b /= n; const fill = n / t;
+  if (r > 200 && g > 150 && b < 90) return fill > .5 ? 'Y' : 'U';
+  if (r > 170 && g < 90 && b < 90) return fill > .5 ? 'R' : 'O';
+  if (b > 170 && r < 90) return 'I';
+  if (g > 140 && r < 100 && b < 120) return 'I';
+  if (r < 90 && g < 90 && b < 90) return 'G';
+  return 'U';
+}
+async function tlParseReport(pdfjs, buf){
+  const doc = await pdfjs.getDocument({ data: buf }).promise, OPS = pdfjs.OPS;
+  const mul = (m, n) => [m[0]*n[0]+m[2]*n[1], m[1]*n[0]+m[3]*n[1], m[0]*n[2]+m[2]*n[3], m[1]*n[2]+m[3]*n[3], m[0]*n[4]+m[2]*n[5]+m[4], m[1]*n[4]+m[3]*n[5]+m[5]];
+  const out = { ref: '', h: { s: [], b: [] }, a: { s: [], b: [] }, ev: [] }, sec = { h: 's', a: 's' };
+  let inEv = false;
+  for (let pi = 1; pi <= doc.numPages; pi++) {
+    const page = await doc.getPage(pi), ol = await page.getOperatorList(), imgs = [], st = [];
+    let ctm = [1, 0, 0, 1, 0, 0];
+    ol.fnArray.forEach((f, i) => { const a = ol.argsArray[i];
+      if (f === OPS.save) st.push(ctm); else if (f === OPS.restore) ctm = st.pop() || ctm; else if (f === OPS.transform) ctm = mul(ctm, a);
+      else if (f === OPS.paintImageXObject && Math.abs(ctm[0]) < 20) imgs.push({ name: a[0], x: ctm[4], y: ctm[5] }); });
+    const types = {};
+    for (const im of imgs) if (!(im.name in types)) { let o = null; try { o = im.name.startsWith('g_') ? page.commonObjs.get(im.name) : page.objs.get(im.name); } catch (e) {} types[im.name] = o ? tlClassify(o) : 'U'; }
+    const tc = await page.getTextContent(), rows = new Map();
+    tc.items.forEach(it => { const s = it.str.trim(); if (!s) return; const y = it.transform[5]; let k = [...rows.keys()].find(r => Math.abs(r - y) <= 2); if (k == null) { k = y; rows.set(k, []); } rows.get(k).push({ x: it.transform[4], s }); });
+    for (const y of [...rows.keys()].sort((a, b) => b - a)) {
+      const items = rows.get(y).sort((a, b) => a.x - b.x);
+      if (items.some(i => /^Match Events/i.test(i.s))) { inEv = true; continue; }
+      if (!out.ref && items.some(i => i.x < 60 && /^Referee:?$/i.test(i.s))) { out.ref = items.filter(i => i.x > 100 && i.x < 230 && !/^\(.*\)$/.test(i.s)).map(i => i.s).join(' ').replace(/[\^~]/g, ' '); continue; }
+      if (!inEv) {
+        for (const [side, f] of [['h', i => i.x < 300], ['a', i => i.x >= 300]]) {
+          const its = items.filter(f); if (!its.length) continue;
+          if (its.some(i => /^Substitutes/i.test(i.s))) { sec[side] = 'b'; continue; }
+          const mm = /^\[\s*(\d+)\s*\]/.exec(its[0].s); if (mm) out[side][sec[side]].push(+mm[1]);
+        }
+      } else {
+        const mi = items.find(i => /^\d+(\+\d+)?'$/.test(i.s));
+        if (!mi) continue;
+        const left = items.filter(i => i.x < mi.x - 2), right = items.filter(i => i.x > mi.x + 2);
+        const rowImgs = imgs.filter(g => Math.abs(g.y - y) <= 6); let side = left.length ? 'h' : right.length ? 'a' : ''; if (!side && rowImgs.length) side = rowImgs[0].x < mi.x ? 'h' : 'a'; if (!side) continue;
+        const txt = (side === 'h' ? left : right).map(i => i.s).join(' '), nm = /\[(\d+)\]/.exec(txt);
+        const im = rowImgs.find(g => side === 'h' ? g.x < mi.x : g.x > mi.x);
+        out.ev.push({ min: mi.s.replace(/'/g, ''), t: im ? types[im.name] : 'U', side, no: nm ? +nm[1] : null });
+      }
+    }
+  }
+  return out;
+}
+const fixThai = s => String(s || '').replace(/ ?\u0e4d ?\u0e32/g, '\u0e33');
+/* ทีมที่มีผู้ยิงมากกว่าสกอร์จริง = มีการทำเข้าประตูตัวเอง เลือกนักเตะที่มีสถิติทำเข้าตัวเองก่อน */
+function ownGoals(m, r){
+  const og = new Set();
+  const goals = r.ev.map((e, k) => ({ e, k })).filter(x => x.e.t === 'G');
+  for (const [side, score, team] of [['h', m.hs, m.home], ['a', m.as, m.away]]) {
+    let excess = goals.filter(x => x.e.side === side).length - score;
+    if (excess <= 0) continue;
+    const ogOf = x => { const p = S.d.pByNo.get(team + '#' + x.e.no); return p ? p.og : 0; };
+    for (const c of goals.filter(x => x.e.side === side).sort((p, q) => ogOf(q) - ogOf(p))) { if (excess-- <= 0) break; og.add(c.k); }
+  }
+  return og;
+}
+/* รายการแข่งขันของนักเตะ จากรายงานแต่ละนัด */
+function playerLog(p){
+  const out = [];
+  for (const m of S.data.matches) {
+    if (!m.rep || (m.home !== p.team && m.away !== p.team) || !p.no) continue;
+    const side = m.home === p.team ? 'h' : 'a', L = m.rep[side], no = +p.no;
+    const starter = L.s.includes(no), bench = L.b.includes(no);
+    if (!starter && !bench) continue;
+    const ev = m.rep.ev.filter(e => e.side === side && e.no === no);
+    const og = ownGoals(m, m.rep);
+    const cameOn = ev.some(e => e.t === 'I');
+    out.push({ m, side, role: starter ? 'ตัวจริง' : cameOn ? 'สำรอง (ลง)' : 'สำรอง', played: starter || cameOn,
+      ev: ev.map(e => ({ t: e.t, min: e.min, og: e.t === 'G' && og.has(m.rep.ev.indexOf(e)) })) });
+  }
+  return out.sort((a, b) => byOrder(a.m, b.m));
+}
+const minVal = m => { const [a, b] = String(m).split('+'); return +a + (+b || 0) / 100; };
+function openMatch(i){
+  const m = S.data.matches[+i];
+  if (!m) return;
+  const dlg = $('#pm');
+  dlg.classList.add('wide');
+  dlg.innerHTML = matchReportHtml(m, m.rep, !m.rep && !SNAPSHOT && m.id);
+  if (!dlg.open) dlg.showModal();
+  dlg.scrollTop = 0;
+  if (!m.rep && !SNAPSHOT && m.id) fetchReport(m).then(r => { if (dlg.open && dlg.dataset.match == i) dlg.innerHTML = matchReportHtml(m, r, false); })
+    .catch(e => { if (dlg.open && dlg.dataset.match == i) dlg.innerHTML = matchReportHtml(m, null, false, e.message); });
+  dlg.dataset.match = i;
+}
+function matchReportHtml(m, r, loading, err){
+  const th = S.d.teamBy.get(m.home) || { th: m.home }, ta = S.d.teamBy.get(m.away) || { th: m.away };
+  const P = (team, no) => S.d.pByNo.get(team + '#' + no);
+  const pname = (team, no) => { const p = no ? P(team, no) : null; return p ? pn(p) : `<span class="muted">${no ? '#' + no : 'ไม่ระบุชื่อ'}</span>`; };
+  const meta = [m.round != null ? 'นัดที่ ' + m.round : '', m.date ? fmtDate(m.date, true) : '', m.time, m.venue].filter(Boolean).map(esc).join(' · ');
+  const meta2 = [m.att ? `ผู้ชม ${fmtN(m.att)} คน` : '', r && r.ref ? `ผู้ตัดสิน ${esc(fixThai(r.ref))}` : ''].filter(Boolean).join(' · ');
+  let html = `<div class="mr-head"><button class="iconbtn x" data-act="close" aria-label="ปิด">${ICON.close}</button>
+    <div class="small muted" style="text-align:center">รายงานการแข่งขัน</div>
+    <div class="mr-teams"><div class="mr-team">${tl(m.home, 44)}</div><div class="mr-score">${m.hs} – ${m.as}</div><div class="mr-team">${tl(m.away, 44)}</div></div>
+    <div class="mr-meta">${meta}${meta2 ? '<br>' + meta2 : ''}</div></div>`;
+  if (loading) html += '<div class="empty-state"><div class="spinner"></div>กำลังโหลดรายงานจากไทยลีก…</div>';
+  else if (!r) html += `<div class="empty-state"><b>ยังไม่มีรายงานละเอียดของนัดนี้</b>${err ? esc(err) : 'ข้อมูลรายงานจะเข้ามาพร้อมการอัปเดตครั้งถัดไป'}</div>`;
+  else {
+    // timeline: รวมการเปลี่ยนตัวเข้า-ออกนาทีเดียวกันเป็นแถวเดียว
+    const evs = r.ev.slice(), rows = [], used = new Set(), og = ownGoals(m, r);
+    let sh = 0, sa = 0;
+    evs.forEach((e, k) => {
+      if (used.has(k)) return;
+      if (e.t === 'I' || e.t === 'O') {
+        const j = evs.findIndex((x, q) => q > k && !used.has(q) && x.side === e.side && x.min === e.min && (x.t === (e.t === 'I' ? 'O' : 'I')));
+        if (j >= 0) { used.add(j); const inE = e.t === 'I' ? e : evs[j], outE = e.t === 'I' ? evs[j] : e; rows.push({ min: e.min, side: e.side, sub: [inE.no, outE.no] }); return; }
+      }
+      if (e.t === 'G') { const isOg = og.has(k), credit = isOg ? (e.side === 'h' ? 'a' : 'h') : e.side; if (credit === 'h') sh++; else sa++; rows.push(Object.assign({ score: `${sh}–${sa}`, og: isOg }, e)); return; }
+      rows.push(e);
+    });
+    const cell = (x) => {
+      const team = x.side === 'h' ? m.home : m.away;
+      if (x.sub) return `<span class="ei I">↑</span><span style="min-width:0">${pname(team, x.sub[0])}<span class="subtxt">↓ ออก: ${P(team, x.sub[1]) ? esc(P(team, x.sub[1]).name) : '#' + x.sub[1]}</span></span>`;
+      return `${evIcon(x.t)}<span style="min-width:0">${pname(team, x.no)}${x.score ? ` <span class="sc2">(${x.score})</span>` : ''}${x.og ? '<span class="subtxt">ทำเข้าประตูตัวเอง</span>' : ''}</span>`;
+    };
+    html += `<div class="mr-sec">เหตุการณ์สำคัญ</div>` + (rows.length ? rows.map(x => `<div class="tlrow"><div class="h">${x.side === 'h' ? cell(x) : ''}</div><div class="min">${esc(x.min)}'</div><div class="a">${x.side === 'a' ? cell(x) : ''}</div></div>`).join('') : '<div class="pb muted">ไม่มีเหตุการณ์ที่บันทึกไว้</div>');
+    // lineups
+    const marks = (side, no) => r.ev.filter(e => e.side === side && e.no === no).map(e => `${evIcon(e.t)}${esc(e.min)}'`).join(' ');
+    const list = (side, team, nums, starters) => nums.map(no => {
+      const mk = marks(side, no), cameOn = r.ev.some(e => e.side === side && e.no === no && e.t === 'I');
+      return `<div class="lu${!starters && !cameOn ? ' unused' : ''}"><span class="no">${no}</span><span style="min-width:0">${pname(team, no)}</span><span class="marks">${mk}</span></div>`; }).join('');
+    const col = (side, team, t) => `<div><div class="lu-h">${esc(t.th)} · ตัวจริง</div>${list(side, team, r[side].s, true)}<div class="lu-h" style="margin-top:6px">สำรอง</div>${list(side, team, r[side].b, false) || '<div class="lu muted">–</div>'}</div>`;
+    html += `<div class="mr-sec">รายชื่อผู้เล่น</div><div class="lineups">${col('h', m.home, th)}${col('a', m.away, ta)}</div>`;
+  }
+  const link = m.id && S.data.meta.tid ? `<a href="https://thaileague.co.th/results/${S.data.meta.tid}/match/${m.id}" target="_blank" rel="noopener">ดูหน้าแมตช์บนเว็บไทยลีก ↗</a>` : '';
+  html += `<div class="mr-foot"><span>ข้อมูลจากรายงานการแข่งขันทางการของไทยลีก</span>${link}</div>`;
+  return html;
+}
+
+function gameLogHtml(p){
+  const log = playerLog(p);
+  if (!log.length) return '';
+  const rows = log.map(x => { const m = x.m, home = x.side === 'h', opp = home ? m.away : m.home, gf = home ? m.hs : m.as, ga = home ? m.as : m.hs;
+    const res = gf > ga ? 'W' : gf < ga ? 'L' : 'D';
+    const evs = x.ev.map(e => `${evIcon(e.t)}<span>${esc(e.min)}'${e.og ? ' (OG)' : ''}</span>`).join(' ');
+    return `<tr><td class="n rk">${m.round ?? ''}</td><td class="l"><span class="dim">${home ? 'เหย้า' : 'เยือน'}</span> ${esc(opp)}</td><td class="c"><button class="sc f ${res}" style="width:auto;padding:0 6px" data-match="${m.i}" title="ดูรายงาน">${gf}–${ga}</button></td><td class="l${x.played ? '' : ' dim'}">${x.role}</td><td class="l"><span class="marks" style="display:inline-flex;gap:4px;align-items:center">${evs}</span></td></tr>`; }).join('');
+  return `<div class="pctl" style="padding-top:4px"><h4>รายการแข่งขัน</h4><div class="cap">จากรายงานการแข่งขันทางการ · แตะสกอร์เพื่อดูรายงานนัดนั้น</div>
+    <div class="tw"><table class="dt"><thead><tr><th>นัด</th><th class="l">คู่แข่ง</th><th class="c">ผล</th><th class="l">บทบาท</th><th class="l">เหตุการณ์</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+}
+
+/* ---------- search ---------- */
+function doSearch(q){
+  const box = $('#qres');
+  q = q.trim();
+  if (!q || !S.data) { box.hidden = true; box.innerHTML = ''; return; }
+  const n = norm(q);
+  const teams = S.data.teams.filter(t => [t.th, t.en, t.short].some(x => norm(x).includes(n))).slice(0, 4);
+  const players = S.data.players.filter(p => [p.name, p.full, p.shirt, p.team].some(x => norm(x).includes(n))).sort((a, b) => b.min - a.min).slice(0, 25);
+  box.innerHTML = (teams.map(t => `<button data-team="${esc(t.th)}">${crest(t, 24)}<span>${esc(t.th)}<span class="sub">ทีม</span></span></button>`).join('')
+    + players.map(p => `<button data-player="${p.id}">${posTag(p)}<span>${esc(p.name)}<span class="sub">${esc(p.team)} · ${p.mp} นัด · ${p.goals} ประตู</span></span></button>`).join(''))
+    || `<div class="empty">ไม่พบ "${esc(q)}"</div>`;
+  box.hidden = false;
+}
+
+/* ---------- routing & render ---------- */
+const VIEWS = { overview: viewOverview, table: viewTable, results: viewResults, players: viewPlayers, teams: viewTeams, compare: viewCompare };
+function navHtml(){ return NAV.map(([k, l]) => `<a href="#${k}" data-tab="${k}"${S.tab === k ? ' class="on" aria-current="page"' : ''}>${ICON[k]}<span>${l}</span></a>`).join(''); }
+function route(){
+  const h = decodeURIComponent(location.hash.slice(1));
+  S.tab = VIEWS[h] ? h : 'overview';
+  render();
+}
+function render(){
+  $('#rail').innerHTML = navHtml() + `<div class="rail-foot">ข้อมูลจาก <a href="https://thaileague.co.th" target="_blank" rel="noopener">thaileague.co.th</a><br>${SNAPSHOT ? 'ข้อมูลชุดที่บันทึกไว้' : 'ดึงข้อมูลสดอัตโนมัติ'}</div>`;
+  $('#topnav').innerHTML = navHtml();
+  updateStamp();
+  if (!S.data) {
+    $('#view').innerHTML = S.error
+      ? emptyState('ดึงข้อมูลจากไทยลีกไม่สำเร็จ', `<div>${esc(S.error)}</div><div style="margin-top:12px"><button class="btn" data-act="refresh">ลองใหม่</button></div>`)
+      : '<section class="panel"><div class="empty-state"><div class="spinner"></div>กำลังดึงข้อมูลจากไทยลีก…</div></section>';
+    return;
+  }
+  const pre = S.error ? `<div class="banner">ดึงข้อมูลล่าสุดไม่สำเร็จ (${esc(S.error)}) กำลังแสดงข้อมูลที่เก็บไว้เมื่อ ${esc(timeAgo(S.data.meta.updated))}</div>` : '';
+  $('#view').innerHTML = pre + VIEWS[S.tab]();
+}
+
+/* ---------- cache & load ---------- */
+function readCache(){ try { const c = JSON.parse(localStorage.getItem(CACHE_KEY)); return c && c.meta && c.teams ? c : null; } catch (e) { return null; } }
+function writeCache(raw){ try { localStorage.setItem(CACHE_KEY, JSON.stringify(raw)); } catch (e) {} }
+async function load(force){
+  if (SNAPSHOT) { setData(SNAPSHOT); route(); return; }
+  const cached = readCache();
+  if (!S.data && cached) setData(cached);
+  if (!force && cached && Date.now() - cached.meta.updated < CONFIG.cacheMinutes * 60000) { S.error = ''; route(); return; }
+  S.loading = true; S.error = ''; route();
+  try { const raw = await fetchLive(); writeCache(raw); setData(raw); }
+  catch (e) { S.error = e.message || String(e); console.error(e); }
+  S.loading = false; route();
+}
+
+/* ---------- events ---------- */
+function goTeam(th){
+  if ($('#pm').open) $('#pm').close();
+  $('#qres').hidden = true;
+  S.team = th || null;
+  if (location.hash !== '#teams') location.hash = 'teams'; else route();
+  window.scrollTo(0, 0);
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-tab],[data-team],[data-player],[data-match],[data-act],[data-set],[data-sort],[data-round],[data-race],[data-preset]');
+  if (!e.target.closest('.search')) $('#qres').hidden = true;
+  if (!t) return;
+  const ds = t.dataset;
+  if (ds.tab) { if (ds.tab === 'teams') S.team = null; if (location.hash === '#' + ds.tab) { e.preventDefault(); route(); } window.scrollTo(0, 0); return; }
+  if ('team' in ds) { e.preventDefault(); goTeam(ds.team); return; }
+  if ('player' in ds) { $('#qres').hidden = true; openPlayer(ds.player); return; }
+  if ('match' in ds) { openMatch(ds.match); return; }
+  if (ds.set) {
+    const [k, v] = ds.set.split(':');
+    if (k === 'tableMode') S.tableMode = v; else if (k === 'resMode') S.resMode = v;
+    else if (k === 'cmpMode') { S.cmpMode = v; S.cmp = ['', '']; }
+    else if (k === 'pos') { S.pf.pos = v; S.pf.preset = ''; }
+    render(); return;
+  }
+  if (ds.sort) {
+    const s = S.sorts[ds.sort] || (S.sorts[ds.sort] = { k: ds.key, dir: -1 });
+    if (s.k === ds.key) s.dir *= -1; else { s.k = ds.key; s.dir = ds.asc === '1' ? 1 : -1; }
+    if (ds.sort === 'players') S.pf.preset = '';
+    render(); return;
+  }
+  if ('round' in ds) { if (ds.round !== '') { S.round = +ds.round; render(); } return; }
+  if (ds.race) {
+    const i = S.race.indexOf(ds.race);
+    if (i >= 0) S.race.splice(i, 1); else { if (S.race.length >= 4) S.race.shift(); S.race.push(ds.race); }
+    render(); return;
+  }
+  if (ds.preset) {
+    const pr = PRESETS.find(x => x[0] === ds.preset);
+    if (pr) { const o = pr[2]; Object.assign(S.pf, { preset: pr[0], pos: o.pos || '', min: o.min || 0 }); S.sorts.players = { k: o.sort, dir: -1 }; render(); }
+    return;
+  }
+  if (ds.act === 'close') $('#pm').close();
+  else if (ds.act === 'refresh') load(true);
+  else if (ds.act === 'copy') copyPlayers();
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.id === 'roundSel') { S.round = +t.value; render(); }
+  else if (t.id === 'pft') { S.pf.team = t.value; render(); }
+  else if (t.id === 'pfm') { S.pf.min = +t.value; S.pf.preset = ''; render(); }
+  else if (t.dataset.cmp) { S.cmp[+t.dataset.cmp] = t.value; render(); }
+});
+document.addEventListener('input', e => { if (e.target.id === 'pfq') { S.pf.q = e.target.value; updatePlayerTable(); } });
+$('#pm').addEventListener('click', e => { if (e.target === $('#pm')) $('#pm').close(); });
+let qT; $('#q').addEventListener('input', e => { clearTimeout(qT); qT = setTimeout(() => doSearch(e.target.value), 120); });
+$('#q').addEventListener('focus', e => e.target.value && doSearch(e.target.value));
+$('#q').addEventListener('keydown', e => { if (e.key === 'Escape') { e.target.value = ''; doSearch(''); } });
+window.addEventListener('hashchange', route);
+let rT, lastW = window.innerWidth;
+window.addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(() => { if (S.data && Math.abs(window.innerWidth - lastW) > 40 && !(document.activeElement && document.activeElement.matches('input'))) { lastW = window.innerWidth; render(); } }, 250); });
+setInterval(updateStamp, 60000);
+document.addEventListener('visibilitychange', () => {
+  if (!SNAPSHOT && document.visibilityState === 'visible' && S.data && !S.loading && Date.now() - S.data.meta.updated > CONFIG.cacheMinutes * 60000) load(true);
+});
+load(false);
+</script>
+</body>
+</html>
