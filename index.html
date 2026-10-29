@@ -332,6 +332,17 @@ button.sc:hover{background:var(--accent);color:var(--accent-ink)}
 .mr-foot{padding:12px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .mr-foot a{color:var(--accent);font-weight:600}
 dialog.wide{width:min(760px,calc(100vw - 24px))}
+.mr-score.up{font-size:24px;color:var(--muted)}
+.sl-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;color:var(--text)}
+.kit{display:inline-flex;gap:3px;align-items:center;font:500 11px var(--f-body);color:var(--muted)}
+.kit i{display:inline-block;width:12px;height:12px;border-radius:3px;border:1px solid var(--line-2)}
+.kit span{margin-left:4px}
+.bdg{display:inline-block;font:600 9.5px var(--f-num);padding:1px 5px;border-radius:4px;background:var(--surface-3);color:var(--muted);margin-left:6px;vertical-align:1px}
+.bdg.c{background:var(--accent);color:var(--accent-ink)}
+.dt.sl td.l .pn{display:inline}
+.dt .grp-row td{background:var(--surface-2);font:600 11.5px var(--f-body);color:var(--muted);text-align:left;padding:5px 10px}
+button.sc.up{background:none}
+button.sc.up:hover{background:var(--surface-3);color:var(--text)}
 @media (max-width:560px){.lineups{grid-template-columns:1fr}.lineups > div + div{border-left:0;border-top:1px solid var(--line)}.mr-score{font-size:28px}.tlrow{padding:6px 10px;grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr)}}
 
 /* modal + toast */
@@ -864,7 +875,7 @@ function matchRow(m, o = {}){
   if (m.played) sc = `<button class="sc" data-match="${m.i}" title="ดูรายงานการแข่งขัน" aria-label="รายงานการแข่งขัน ${esc(m.home)} ${m.hs}-${m.as} ${esc(m.away)}">${m.hs}–${m.as}</button>`;
   else if (m.status === 'live') sc = `<div class="sc live" title="กำลังแข่ง">${esc(m.liveScore)}</div>`;
   else if (m.status === 'cancel') sc = '<div class="sc up">ยกเลิก</div>';
-  else sc = `<div class="sc up">${esc(m.time || 'vs')}</div>`;
+  else sc = `<button class="sc up" data-match="${m.i}" title="ดูใบรายชื่อก่อนแข่ง">${esc(m.time || 'vs')}</button>`;
   const meta = [o.noDate ? '' : m.date ? fmtDate(m.date, true) : '', o.round && m.round != null ? 'นัดที่ ' + m.round : '', o.noVenue ? '' : m.venue].filter(Boolean).join(' · ');
   return `<div class="mrow"><div class="h${hw ? ' win' : ''}">${tl(m.home)}</div>${sc}<div class="a${aw ? ' win' : ''}">${tl(m.away)}</div>${meta ? `<div class="mmeta">${esc(meta)}</div>` : ''}</div>`;
 }
@@ -972,7 +983,7 @@ function viewMatrix(){
     if (a.th === h.th) return '<td class="self"></td>';
     const m = key.get(h.th + '|' + a.th);
     if (!m) return '<td class="up">–</td>';
-    if (!m.played) return `<td class="up" title="${esc(fmtDate(m.date, true))}">${esc(fmtDate(m.date).replace(/ \d+$/, ''))}</td>`;
+    if (!m.played) return `<td class="up" title="${esc(fmtDate(m.date, true))} · ดูใบรายชื่อ" data-match="${m.i}" style="cursor:pointer">${esc(fmtDate(m.date).replace(/ \d+$/, ''))}</td>`;
     const r = m.hs > m.as ? 'W' : m.hs < m.as ? 'L' : 'D';
     return `<td class="${r}" title="${esc(`${h.th} ${m.hs}-${m.as} ${a.th} · นัดที่ ${m.round}`)}" data-match="${m.i}" style="cursor:pointer">${m.hs}–${m.as}</td>`;
   }).join('')}</tr>`).join('');
@@ -1360,59 +1371,179 @@ function playerLog(p){
   return out.sort((a, b) => byOrder(a.m, b.m));
 }
 const minVal = m => { const [a, b] = String(m).split('+'); return +a + (+b || 0) / 100; };
-function openMatch(i){
+/* ---------- match modal: รายงานการแข่งขัน + ใบรายชื่อก่อนแข่ง ---------- */
+const MM = { i: null, tab: 'rep', rep: null, repErr: '', repLoading: false, sl: null, slErr: '', slLoading: false };
+function openMatch(i, tab){
   const m = S.data.matches[+i];
   if (!m) return;
+  if (MM.i !== +i) Object.assign(MM, { i: +i, rep: m.rep || null, repErr: '', repLoading: false, sl: null, slErr: '', slLoading: false });
+  MM.tab = tab || (m.played ? 'rep' : 'sl');
+  if (!m.played) MM.tab = 'sl';
   const dlg = $('#pm');
-  dlg.classList.add('wide');
-  dlg.innerHTML = matchReportHtml(m, m.rep, !m.rep && !SNAPSHOT && m.id);
+  dlg.classList.add('wide'); dlg.dataset.match = i;
+  const redraw = () => { if (MM.i === +i && dlg.open && dlg.dataset.match == i) drawMatch(); };
+  if (MM.tab === 'rep' && !MM.rep && !SNAPSHOT && m.id && !MM.repLoading && !MM.repErr) {
+    MM.repLoading = true;
+    fetchReport(m).then(r => { MM.rep = r; }).catch(e => { MM.repErr = e.message || String(e); }).finally(() => { MM.repLoading = false; redraw(); });
+  }
+  if (MM.tab === 'sl' && !MM.sl && !SNAPSHOT && m.id && !MM.slLoading && !MM.slErr) {
+    MM.slLoading = true;
+    fetchStartList(m).then(t => { MM.sl = t; }).catch(e => { MM.slErr = e.code === 'notyet' ? 'notyet' : (e.message || String(e)); }).finally(() => { MM.slLoading = false; redraw(); });
+  }
+  drawMatch();
   if (!dlg.open) dlg.showModal();
   dlg.scrollTop = 0;
-  if (!m.rep && !SNAPSHOT && m.id) fetchReport(m).then(r => { if (dlg.open && dlg.dataset.match == i) dlg.innerHTML = matchReportHtml(m, r, false); })
-    .catch(e => { if (dlg.open && dlg.dataset.match == i) dlg.innerHTML = matchReportHtml(m, null, false, e.message); });
-  dlg.dataset.match = i;
 }
-function matchReportHtml(m, r, loading, err){
+function drawMatch(){
+  const m = S.data.matches[MM.i];
   const th = S.d.teamBy.get(m.home) || { th: m.home }, ta = S.d.teamBy.get(m.away) || { th: m.away };
+  const r = MM.rep;
+  const meta = [m.round != null ? 'นัดที่ ' + m.round : '', m.date ? fmtDate(m.date, true) : '', m.time, m.venue].filter(Boolean).map(esc).join(' · ');
+  const meta2 = [m.played && m.att ? `ผู้ชม ${fmtN(m.att)} คน` : '', r && r.ref ? `ผู้ตัดสิน ${esc(fixThai(r.ref))}` : ''].filter(Boolean).join(' · ');
+  const score = m.played ? `${m.hs} – ${m.as}` : m.status === 'live' ? esc(m.liveScore) : m.status === 'cancel' ? 'ยกเลิก' : 'VS';
+  const tabs = m.played ? `<div style="display:flex;justify-content:center;margin-top:12px"><div class="seg">${[['rep', 'รายงานการแข่งขัน'], ['sl', 'ใบรายชื่อก่อนแข่ง']].map(([k, l]) => `<button class="${MM.tab === k ? 'on' : ''}" data-mtab="${k}">${l}</button>`).join('')}</div></div>` : '';
+  let html = `<div class="mr-head"><button class="iconbtn x" data-act="close" aria-label="ปิด">${ICON.close}</button>
+    <div class="small muted" style="text-align:center">${m.played ? 'จบการแข่งขัน' : 'โปรแกรมการแข่งขัน'}</div>
+    <div class="mr-teams"><div class="mr-team">${tl(m.home, 44)}</div><div class="mr-score${m.played ? '' : ' up'}">${score}</div><div class="mr-team">${tl(m.away, 44)}</div></div>
+    <div class="mr-meta">${meta}${meta2 ? '<br>' + meta2 : ''}</div>${tabs}</div>`;
+  html += MM.tab === 'rep' ? reportBody(m, th, ta) : startListBody(m);
+  const link = m.id && S.data.meta.tid ? `<a href="https://thaileague.co.th/results/${S.data.meta.tid}/match/${m.id}" target="_blank" rel="noopener">ดูหน้าแมตช์บนเว็บไทยลีก ↗</a>` : '';
+  html += `<div class="mr-foot"><span>ข้อมูลจากเอกสารทางการของไทยลีก</span>${link}</div>`;
+  $('#pm').innerHTML = html;
+}
+function reportBody(m, th, ta){
+  const r = MM.rep;
   const P = (team, no) => S.d.pByNo.get(team + '#' + no);
   const pname = (team, no) => { const p = no ? P(team, no) : null; return p ? pn(p) : `<span class="muted">${no ? '#' + no : 'ไม่ระบุชื่อ'}</span>`; };
-  const meta = [m.round != null ? 'นัดที่ ' + m.round : '', m.date ? fmtDate(m.date, true) : '', m.time, m.venue].filter(Boolean).map(esc).join(' · ');
-  const meta2 = [m.att ? `ผู้ชม ${fmtN(m.att)} คน` : '', r && r.ref ? `ผู้ตัดสิน ${esc(fixThai(r.ref))}` : ''].filter(Boolean).join(' · ');
-  let html = `<div class="mr-head"><button class="iconbtn x" data-act="close" aria-label="ปิด">${ICON.close}</button>
-    <div class="small muted" style="text-align:center">รายงานการแข่งขัน</div>
-    <div class="mr-teams"><div class="mr-team">${tl(m.home, 44)}</div><div class="mr-score">${m.hs} – ${m.as}</div><div class="mr-team">${tl(m.away, 44)}</div></div>
-    <div class="mr-meta">${meta}${meta2 ? '<br>' + meta2 : ''}</div></div>`;
-  if (loading) html += '<div class="empty-state"><div class="spinner"></div>กำลังโหลดรายงานจากไทยลีก…</div>';
-  else if (!r) html += `<div class="empty-state"><b>ยังไม่มีรายงานละเอียดของนัดนี้</b>${err ? esc(err) : 'ข้อมูลรายงานจะเข้ามาพร้อมการอัปเดตครั้งถัดไป'}</div>`;
-  else {
-    // timeline: รวมการเปลี่ยนตัวเข้า-ออกนาทีเดียวกันเป็นแถวเดียว
-    const evs = r.ev.slice(), rows = [], used = new Set(), og = ownGoals(m, r);
-    let sh = 0, sa = 0;
-    evs.forEach((e, k) => {
-      if (used.has(k)) return;
-      if (e.t === 'I' || e.t === 'O') {
-        const j = evs.findIndex((x, q) => q > k && !used.has(q) && x.side === e.side && x.min === e.min && (x.t === (e.t === 'I' ? 'O' : 'I')));
-        if (j >= 0) { used.add(j); const inE = e.t === 'I' ? e : evs[j], outE = e.t === 'I' ? evs[j] : e; rows.push({ min: e.min, side: e.side, sub: [inE.no, outE.no] }); return; }
+  if (MM.repLoading) return '<div class="empty-state"><div class="spinner"></div>กำลังโหลดรายงานจากไทยลีก…</div>';
+  if (!r) return `<div class="empty-state"><b>ยังไม่มีรายงานละเอียดของนัดนี้</b>${MM.repErr ? esc(MM.repErr) : 'ข้อมูลรายงานจะเข้ามาพร้อมการอัปเดตครั้งถัดไป'}</div>`;
+  const evs = r.ev.slice(), rows = [], used = new Set(), og = ownGoals(m, r);
+  let sh = 0, sa = 0, html = '';
+  evs.forEach((e, k) => {
+    if (used.has(k)) return;
+    if (e.t === 'I' || e.t === 'O') {
+      const j = evs.findIndex((x, q) => q > k && !used.has(q) && x.side === e.side && x.min === e.min && (x.t === (e.t === 'I' ? 'O' : 'I')));
+      if (j >= 0) { used.add(j); const inE = e.t === 'I' ? e : evs[j], outE = e.t === 'I' ? evs[j] : e; rows.push({ min: e.min, side: e.side, sub: [inE.no, outE.no] }); return; }
+    }
+    if (e.t === 'G') { const isOg = og.has(k), credit = isOg ? (e.side === 'h' ? 'a' : 'h') : e.side; if (credit === 'h') sh++; else sa++; rows.push(Object.assign({ score: `${sh}–${sa}`, og: isOg }, e)); return; }
+    rows.push(e);
+  });
+  const cell = (x) => {
+    const team = x.side === 'h' ? m.home : m.away;
+    if (x.sub) return `<span class="ei I">↑</span><span style="min-width:0">${pname(team, x.sub[0])}<span class="subtxt">↓ ออก: ${P(team, x.sub[1]) ? esc(P(team, x.sub[1]).name) : '#' + x.sub[1]}</span></span>`;
+    return `${evIcon(x.t)}<span style="min-width:0">${pname(team, x.no)}${x.score ? ` <span class="sc2">(${x.score})</span>` : ''}${x.og ? '<span class="subtxt">ทำเข้าประตูตัวเอง</span>' : ''}</span>`;
+  };
+  html += `<div class="mr-sec">เหตุการณ์สำคัญ</div>` + (rows.length ? rows.map(x => `<div class="tlrow"><div class="h">${x.side === 'h' ? cell(x) : ''}</div><div class="min">${esc(x.min)}'</div><div class="a">${x.side === 'a' ? cell(x) : ''}</div></div>`).join('') : '<div class="pb muted">ไม่มีเหตุการณ์ที่บันทึกไว้</div>');
+  const marks = (side, no) => r.ev.filter(e => e.side === side && e.no === no).map(e => `${evIcon(e.t)}${esc(e.min)}'`).join(' ');
+  const list = (side, team, nums, starters) => nums.map(no => {
+    const mk = marks(side, no), cameOn = r.ev.some(e => e.side === side && e.no === no && e.t === 'I');
+    return `<div class="lu${!starters && !cameOn ? ' unused' : ''}"><span class="no">${no}</span><span style="min-width:0">${pname(team, no)}</span><span class="marks">${mk}</span></div>`; }).join('');
+  const col = (side, team, t) => `<div><div class="lu-h">${esc(t.th)} · ตัวจริง</div>${list(side, team, r[side].s, true)}<div class="lu-h" style="margin-top:6px">สำรอง</div>${list(side, team, r[side].b, false) || '<div class="lu muted">–</div>'}</div>`;
+  return html + `<div class="mr-sec">รายชื่อผู้เล่น</div><div class="lineups">${col('h', m.home, th)}${col('a', m.away, ta)}</div>`;
+}
+/* ใบรายชื่อก่อนแข่ง (Starting List) */
+let pdfjsLib = null;
+const getPdfjs = () => pdfjsLib || (pdfjsLib = import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs').then(lib => { lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs'; return lib; }));
+const slCache = new Map();
+async function fetchStartList(m){
+  if (slCache.has(m.id)) return slCache.get(m.id);
+  try { const c = localStorage.getItem('tlsl:v1:' + m.id); if (c) { const v = JSON.parse(c); slCache.set(m.id, v); return v; } } catch (e) {}
+  const res = await fetch(API + `exports-competition-match/?match_id=${m.id}&type=start_list_public&is_thai_language=true&tournament=${S.data.meta.tid}`);
+  if (res.status === 400) { const e = new Error('notyet'); e.code = 'notyet'; throw e; }
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const { pdf_url } = await res.json();
+  const lib = await getPdfjs();
+  const t = await tlParseStartList(lib, await (await fetch(pdf_url)).arrayBuffer());
+  if (!t.length) throw new Error('อ่านใบรายชื่อไม่สำเร็จ');
+  slCache.set(m.id, t);
+  if (m.played) try { localStorage.setItem('tlsl:v1:' + m.id, JSON.stringify(t)); } catch (e) {}
+  return t;
+}
+async function tlParseStartList(pdfjs, buf){
+  const doc = await pdfjs.getDocument({ data: buf }).promise, teams = [];
+  let cur = null, sec = 's', prev = null, C = { pos: 285, dob: 383, jersey: 310 }, S = { mp: 427, min: 444, gf: 470, ga: 488, y: 514, y2: 533, r: 557 };
+  for (let pi = 1; pi <= doc.numPages; pi++) {
+    const tc = await (await doc.getPage(pi)).getTextContent(), rows = new Map();
+    tc.items.forEach(it => { const s = it.str.trim(); if (!s) return; const y = it.transform[5]; let k = [...rows.keys()].find(r => Math.abs(r - y) <= 2); if (k == null) { k = y; rows.set(k, []); } rows.get(k).push({ x: it.transform[4], s }); });
+    for (const y of [...rows.keys()].sort((a, b) => b - a)) {
+      const items = rows.get(y).sort((a, b) => a.x - b.x), txt = items.map(i => i.s).join(' ');
+      if (/Competition Statistic/i.test(txt)) {
+        const p = prev || [];
+        cur = { name: p.filter(i => i.x < 400).map(i => i.s).join(' '), kit: p.filter(i => i.x >= 400).map(i => i.s).join(' '), s: [], b: [], coach: '', manager: '' };
+        teams.push(cur); sec = 's'; prev = items; continue;
       }
-      if (e.t === 'G') { const isOg = og.has(k), credit = isOg ? (e.side === 'h' ? 'a' : 'h') : e.side; if (credit === 'h') sh++; else sa++; rows.push(Object.assign({ score: `${sh}–${sa}`, og: isOg }, e)); return; }
-      rows.push(e);
-    });
-    const cell = (x) => {
-      const team = x.side === 'h' ? m.home : m.away;
-      if (x.sub) return `<span class="ei I">↑</span><span style="min-width:0">${pname(team, x.sub[0])}<span class="subtxt">↓ ออก: ${P(team, x.sub[1]) ? esc(P(team, x.sub[1]).name) : '#' + x.sub[1]}</span></span>`;
-      return `${evIcon(x.t)}<span style="min-width:0">${pname(team, x.no)}${x.score ? ` <span class="sc2">(${x.score})</span>` : ''}${x.og ? '<span class="subtxt">ทำเข้าประตูตัวเอง</span>' : ''}</span>`;
-    };
-    html += `<div class="mr-sec">เหตุการณ์สำคัญ</div>` + (rows.length ? rows.map(x => `<div class="tlrow"><div class="h">${x.side === 'h' ? cell(x) : ''}</div><div class="min">${esc(x.min)}'</div><div class="a">${x.side === 'a' ? cell(x) : ''}</div></div>`).join('') : '<div class="pb muted">ไม่มีเหตุการณ์ที่บันทึกไว้</div>');
-    // lineups
-    const marks = (side, no) => r.ev.filter(e => e.side === side && e.no === no).map(e => `${evIcon(e.t)}${esc(e.min)}'`).join(' ');
-    const list = (side, team, nums, starters) => nums.map(no => {
-      const mk = marks(side, no), cameOn = r.ev.some(e => e.side === side && e.no === no && e.t === 'I');
-      return `<div class="lu${!starters && !cameOn ? ' unused' : ''}"><span class="no">${no}</span><span style="min-width:0">${pname(team, no)}</span><span class="marks">${mk}</span></div>`; }).join('');
-    const col = (side, team, t) => `<div><div class="lu-h">${esc(t.th)} · ตัวจริง</div>${list(side, team, r[side].s, true)}<div class="lu-h" style="margin-top:6px">สำรอง</div>${list(side, team, r[side].b, false) || '<div class="lu muted">–</div>'}</div>`;
-    html += `<div class="mr-sec">รายชื่อผู้เล่น</div><div class="lineups">${col('h', m.home, th)}${col('a', m.away, ta)}</div>`;
+      if (items.some(i => i.s === '#') && items.some(i => /^Name$/i.test(i.s))) {
+        const f = re => (items.find(i => re.test(i.s)) || {}).x;
+        C = { pos: f(/^Pos$/i) ?? C.pos, jersey: f(/^Jersey/i) ?? C.jersey, dob: f(/^DOB$/i) ?? C.dob }; prev = items; continue;
+      }
+      if (items.some(i => i.s === 'MP') && items.some(i => i.s === 'Min')) {
+        const f = s => (items.find(i => i.s === s) || {}).x;
+        S = { mp: f('MP') ?? S.mp, min: f('Min') ?? S.min, gf: f('GF') ?? S.gf, ga: f('GA') ?? S.ga, y: f('Y') ?? S.y, y2: f('2Y') ?? S.y2, r: f('R') ?? S.r }; prev = items; continue;
+      }
+      if (cur && /^Substitutes/i.test(items[0].s)) { sec = 'b'; prev = items; continue; }
+      if (cur && /^Head Coach/i.test(items[0].s)) {
+        const tm = items.findIndex(i => /^Team Manager/i.test(i.s)), clean = a => a.filter(i => !/^\(\s*[A-Z]{3}\s*\)$/.test(i.s) && !/:$/.test(i.s)).map(i => i.s).join(' ');
+        cur.coach = clean(items.slice(1, tm < 0 ? undefined : tm).filter(i => !/Coach/i.test(i.s))); if (tm >= 0) cur.manager = clean(items.slice(tm + 1)); prev = items; continue;
+      }
+      if (cur && items[0].x < 45 && /^\d+$/.test(items[0].s)) {
+        const no = +items[0].s, nameItems = items.filter(i => i.x > 45 && i.x < C.pos - 6);
+        const isTag = s => /^\(C\)$|^U\d\d$|^[A-Z]{1,2}$/.test(s);
+        const p = { no, name: nameItems.filter(i => !isTag(i.s)).map(i => i.s).join(' '), tags: nameItems.filter(i => isTag(i.s)).map(i => i.s.replace(/[()]/g, '')),
+          pos: (items.find(i => Math.abs(i.x - C.pos) < 12 && /^[A-Z]{2}$/.test(i.s)) || {}).s || '',
+          jersey: items.filter(i => i.x > C.pos + 12 && i.x < C.dob - 8 && !/^\d\d-\d\d-\d{4}$/.test(i.s)).map(i => i.s).join(' '),
+          dob: (items.find(i => /^\d\d-\d\d-\d{4}$/.test(i.s)) || {}).s || '' };
+        for (const [k, x] of Object.entries(S)) { const it = items.find(i => Math.abs(i.x - x) <= 9 && /^-?\d+$/.test(i.s) && i.x > C.dob + 20); p[k] = it ? +it.s : 0; }
+        cur[sec].push(p);
+      }
+      prev = items;
+    }
   }
-  const link = m.id && S.data.meta.tid ? `<a href="https://thaileague.co.th/results/${S.data.meta.tid}/match/${m.id}" target="_blank" rel="noopener">ดูหน้าแมตช์บนเว็บไทยลีก ↗</a>` : '';
-  html += `<div class="mr-foot"><span>ข้อมูลจากรายงานการแข่งขันทางการของไทยลีก</span>${link}</div>`;
+  return teams;
+}
+
+const KIT = { WHITE:'#ffffff', BLACK:'#111111', RED:'#d32f2f', BLUE:'#1e5bd8', 'NAVY BLUE':'#1b2a5c', NAVY:'#1b2a5c', 'SKY BLUE':'#58a8e8', 'LIGHT BLUE':'#7cc0f0', YELLOW:'#f4c400', GREEN:'#1e8a4c', 'DARK GREEN':'#155c34', ORANGE:'#f07c1b', PURPLE:'#6b3fa0', PINK:'#e66aa8', GREY:'#8a8f98', GRAY:'#8a8f98', MAROON:'#7b1f2a', GOLD:'#c9a227', BROWN:'#7a4b2a', CREAM:'#f2ead0' };
+function kitHtml(kit){
+  if (!kit) return '';
+  const parts = kit.split(',').map(x => x.trim().toUpperCase()).filter(Boolean);
+  const lab = ['เสื้อ', 'กางเกง', 'ถุงเท้า'];
+  return `<span class="kit" title="สีชุด: ${esc(kit)}">${parts.map((c, i) => `<i style="background:${KIT[c] || 'var(--surface-3)'}" title="${lab[i] || ''} ${esc(c)}"></i>`).join('')}<span>${esc(kit.toLowerCase())}</span></span>`;
+}
+function ageAt(dob, date){
+  const mm = /^(\d\d)-(\d\d)-(\d{4})$/.exec(dob || ''); if (!mm) return null;
+  const ref = date ? new Date(date) : new Date(); let a = ref.getFullYear() - +mm[3];
+  if (ref.getMonth() + 1 < +mm[2] || (ref.getMonth() + 1 === +mm[2] && ref.getDate() < +mm[1])) a--;
+  return a;
+}
+function startListBody(m){
+  let teams = MM.sl, derived = false;
+  if (SNAPSHOT) {
+    if (!m.rep) return `<div class="empty-state"><b>ใบรายชื่อจะเปิดให้ดู 90 นาทีก่อนเริ่มแข่ง</b>ดูได้บนเว็บเวอร์ชันที่ดึงข้อมูลสดจากไทยลีก (ไฟล์ index.html บนโฮสต์หรือ GitHub Pages)</div>`;
+    const mk = (team, nums) => nums.map(no => { const p = S.d.pByNo.get(team + '#' + no) || {};
+      return { no, name: p.name || '#' + no, tags: FOREIGN(p.country) ? ['F'] : [], pos: posKey(p.pos), dob: '', mp: p.mp || 0, min: p.min || 0, gf: p.goals || 0, ga: p.conceded ? -p.conceded : 0, y: p.yc || 0, y2: 0, r: p.rc || 0 }; });
+    teams = [{ name: m.home, kit: '', s: mk(m.home, m.rep.h.s), b: mk(m.home, m.rep.h.b) }, { name: m.away, kit: '', s: mk(m.away, m.rep.a.s), b: mk(m.away, m.rep.a.b) }];
+    derived = true;
+  } else {
+    if (MM.slLoading) return '<div class="empty-state"><div class="spinner"></div>กำลังโหลดใบรายชื่อจากไทยลีก…</div>';
+    if (MM.slErr === 'notyet') return `<div class="empty-state"><b>ยังไม่เปิดให้ดูใบรายชื่อ</b>ไทยลีกเปิดใบรายชื่อนักเตะ 90 นาทีก่อนเริ่มแข่ง${m.date ? ` (เริ่มแข่ง ${fmtDate(m.date, true)} ${esc(m.time || '')})` : ''}</div>`;
+    if (!teams) return `<div class="empty-state"><b>โหลดใบรายชื่อไม่สำเร็จ</b>${esc(MM.slErr || '')}</div>`;
+  }
+  const sides = [m.home, m.away];
+  let html = '';
+  teams.slice(0, 2).forEach((t, k) => {
+    const team = sides[k], ages = t.s.map(p => ageAt(p.dob, m.date)).filter(a => a != null);
+    const all = t.s.concat(t.b), u21 = all.filter(p => p.tags.includes('U21')), fr = all.filter(p => p.tags.includes('F'));
+    const sum = [ages.length ? `อายุเฉลี่ยตัวจริง ${(avg(ages)).toFixed(1)} ปี` : '', `U21 ตัวจริง ${t.s.filter(p => p.tags.includes('U21')).length} คน (ทั้งหมด ${u21.length})`, `ต่างชาติ ${fr.length} คน`].filter(Boolean).join(' · ');
+    const row = (p) => { const pl = S.d.pByNo.get(team + '#' + p.no), a = ageAt(p.dob, m.date);
+      const badges = p.tags.filter(x => x !== 'GK').map(x => `<span class="bdg${x === 'C' ? ' c' : ''}" title="${x === 'C' ? 'กัปตันทีม' : x === 'F' ? 'นักเตะต่างชาติ' : x}">${x === 'F' ? 'ต่างชาติ' : x}</span>`).join('');
+      return `<tr><td class="n rk">${p.no}</td><td class="l">${pl ? pn(pl) : esc(p.name)}${badges}</td><td class="c">${p.pos ? `<span class="pos">${esc(p.pos)}</span>` : ''}</td>${derived ? '' : `<td class="n">${a ?? '–'}</td>`}<td class="n">${p.mp || 0}</td><td class="n">${fmtN(p.min)}</td><td class="n">${p.pos === 'GK' ? (p.ga ? Math.abs(p.ga) : 0) : p.gf || 0}</td><td class="n">${p.y || 0}</td><td class="n">${(p.r || 0) + (p.y2 || 0)}</td></tr>`; };
+    const head = `<tr><th>#</th><th class="l">นักเตะ</th><th class="c">ตำแหน่ง</th>${derived ? '' : '<th title="อายุ ณ วันแข่ง">อายุ</th>'}<th title="นัดที่ลงเล่น">นัด</th><th>นาที</th><th title="ประตูได้ (ผู้รักษาประตูแสดงประตูที่เสีย)">ประตู/เสีย</th><th title="ใบเหลือง">เหลือง</th><th title="ใบแดง">แดง</th></tr>`;
+    const span = derived ? 8 : 9;
+    html += `<div class="mr-sec sl-h"><span>${tl(team, 22)}</span>${kitHtml(t.kit)}</div>
+      <div class="tw"><table class="dt sl"><thead>${head}</thead><tbody><tr class="grp-row"><td colspan="${span}">ตัวจริง</td></tr>${t.s.map(row).join('')}<tr class="grp-row"><td colspan="${span}">สำรอง</td></tr>${t.b.map(row).join('') || `<tr><td colspan="${span}" class="l dim">–</td></tr>`}</tbody></table></div>
+      <div class="pnote">${sum}${t.coach ? ` · ผู้ฝึกสอน ${esc(t.coach)}` : ''}${t.manager && t.manager !== t.coach ? ` · ผู้จัดการทีม ${esc(t.manager)}` : ''}</div>`;
+  });
+  if (derived) html += '<div class="pnote">สร้างจากรายชื่อในรายงานการแข่งขัน · สถิติเป็นยอดสะสมล่าสุดทั้งฤดูกาล · อายุ สีชุด และกัปตันทีมมีในเว็บเวอร์ชันที่ดึงข้อมูลสด</div>';
+  else html += '<div class="pnote">สถิติในใบรายชื่อเป็นยอดสะสมตามเอกสารทางการ · U21 = นักเตะอายุไม่เกิน 21 ปีตามโควตา</div>';
   return html;
 }
 
@@ -1486,7 +1617,7 @@ function goTeam(th){
   window.scrollTo(0, 0);
 }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-tab],[data-team],[data-player],[data-match],[data-act],[data-set],[data-sort],[data-round],[data-race],[data-preset]');
+  const t = e.target.closest('[data-tab],[data-team],[data-player],[data-match],[data-mtab],[data-act],[data-set],[data-sort],[data-round],[data-race],[data-preset]');
   if (!e.target.closest('.search')) $('#qres').hidden = true;
   if (!t) return;
   const ds = t.dataset;
@@ -1494,6 +1625,7 @@ document.addEventListener('click', e => {
   if ('team' in ds) { e.preventDefault(); goTeam(ds.team); return; }
   if ('player' in ds) { $('#qres').hidden = true; openPlayer(ds.player); return; }
   if ('match' in ds) { openMatch(ds.match); return; }
+  if (ds.mtab) { openMatch(MM.i, ds.mtab); return; }
   if (ds.set) {
     const [k, v] = ds.set.split(':');
     if (k === 'tableMode') S.tableMode = v; else if (k === 'resMode') S.resMode = v;
